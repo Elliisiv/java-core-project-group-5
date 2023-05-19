@@ -1,0 +1,6 @@
+{
+  "defaultBank": "Privatbank",
+  "defaultCurrency": "USD",
+  "decimalPlaces": 2,
+  "notificationTime": "10.00"
+}

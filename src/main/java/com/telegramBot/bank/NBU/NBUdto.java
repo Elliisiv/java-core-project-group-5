@@ -1,5 +1,6 @@
 package com.telegramBot.bank.NBU;
 
+import com.telegramBot.bank.BankEnum;
 import lombok.Data;
 
 @Data
@@ -7,14 +8,6 @@ public class NBUdto {
     private String r030;
     private String txt;
     private double rate;
-    private Currency cc;
+    private BankEnum cc;
     private String exchangedate;
-
-    public enum Currency {
-        GBP,
-        USD,
-        EUR,
-        PLN,
-        UAH
-    }
 }

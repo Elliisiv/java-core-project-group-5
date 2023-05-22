@@ -15,5 +15,6 @@ public class User {
         this.currencies = currencies;
         this.rounding = rounding;
         this.time = time;
+
     }
 }

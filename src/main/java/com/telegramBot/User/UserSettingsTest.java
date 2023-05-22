@@ -2,7 +2,7 @@ package com.telegramBot.User;
 
 public class UserSettingsTest {
     public static void main(String[] args) {
-        //новий користувач
+        //новий  користувач
         UserSettings userSettings = new UserSettings();
 
         // Створення і збереження налаштувань

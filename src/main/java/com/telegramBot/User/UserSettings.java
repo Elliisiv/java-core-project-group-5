@@ -13,7 +13,6 @@ import java.util.List;
 public class UserSettings {
     private final String settingsFile = "./files/userSettings.json";
 
-
     public void createUserSettings(User user) {
         try {
             List<User> users = getUsers();

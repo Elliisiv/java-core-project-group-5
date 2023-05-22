@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 
-public class BankNBU {
+public class NBU {
     private static String url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
     public static double getCurrencyRate(BankEnum currency) {
 

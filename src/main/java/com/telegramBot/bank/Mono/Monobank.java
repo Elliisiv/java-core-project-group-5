@@ -1,6 +1,7 @@
 package com.telegramBot.bank.Mono;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.telegramBot.bank.BankEnum;
 import org.jsoup.Jsoup;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -8,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.telegramBot.bank.Mono.CurrencyRateMonoResponceDTO.Currency.*;
+import static com.telegramBot.bank.BankEnum.*;
 
 public class Monobank {
 
@@ -19,7 +20,7 @@ public class Monobank {
 
     public static int desiredCode;// Для перетворення валюти в код цієї валюти
 
-    public static BigDecimal getCurrencySell(CurrencyRateMonoResponceDTO.Currency currency) {
+    public static BigDecimal getCurrencySell(BankEnum currency) {
 
         if (currency == USD) {
             desiredCode = 840;
@@ -48,7 +49,6 @@ public class Monobank {
         List<CurrencyRateMonoResponceDTO> items = new Gson().fromJson(json, type);
 
         List<CurrencyRateMonoResponceDTO> filteredObjects = new ArrayList<>();
-
         for (CurrencyRateMonoResponceDTO it : items) {
             if (it.getCurrencyCodeA() == desiredCode && it.getCurrencyCodeB()==980) {
                 filteredObjects.add(it);
@@ -63,7 +63,7 @@ public class Monobank {
         return sell;
     }
 
-    public static BigDecimal getCurrencyBuy (CurrencyRateMonoResponceDTO.Currency currency){
+    public static BigDecimal getCurrencyBuy (BankEnum currency){
 
             if (currency == USD) {
                 desiredCode = 840;
@@ -97,9 +97,4 @@ public class Monobank {
                     .findFirst()
                     .orElseThrow();
         }
-
-    public static void main(String[] args) throws IOException, InterruptedException {
-        System.out.println(getCurrencyBuy(EUR));
-       System.out.println(getCurrencySell(EUR));
-   }
 }

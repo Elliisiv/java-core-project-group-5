@@ -4,13 +4,17 @@ import lombok.Data;
 @Data
 public class User {
     private long chatId;
-    //private Bank bank;
-    private String currency;
+    private String bank;
+    private String[] currencies;
+    private int rounding;
+    private String time;
 
+    public User(long chatId, String bank, String[] currencies, int rounding, String time) {
+        this.chatId = chatId;
+        this.bank = bank;
+        this.currencies = currencies;
+        this.rounding = rounding;
+        this.time = time;
 
-//    public User(String chatId, Bank bank, String currency) {
-//        this.chatId = chatId;
-//        this.bank = bank;
-//        this.currency = currency;
-//    }
+    }
 }

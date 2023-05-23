@@ -20,6 +20,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         this.username = username;
         this.token = tokenKey;
     }
+
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
@@ -72,5 +73,3 @@ public class TelegramBot extends TelegramLongPollingBot {
 
 }
 
-
-//залити

@@ -2,17 +2,17 @@ package com.telegramBot.bank.NBU;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.telegramBot.bank.BankEnum;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import static com.telegramBot.bank.Mono.CurrencyRateMonoResponceDTO.Currency.EUR;
 
-public class BankNBU {
+public class NBU {
     private static String url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
-    public static double getCurrencyRate(NBUdto.Currency currency) {
+    public static double getCurrencyRate(BankEnum currency) {
 
         String json;
         {
@@ -34,9 +34,5 @@ public class BankNBU {
                 .map(item -> item.getRate())
                 .findFirst()
                 .orElseThrow();
-    }
-    public static void main(String[] args) throws IOException, InterruptedException {
-        System.out.println(getCurrencyRate(NBUdto.Currency.USD));
-
     }
 }

@@ -1,5 +1,9 @@
 package com.telegramBot.bank;
 
-public class BankEnum {
-    //закину в головну гілку
+public enum BankEnum {
+    GBP,
+    USD,
+    EUR,
+    PLN,
+    UAH
 }

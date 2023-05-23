@@ -27,12 +27,4 @@ public class CurrencyRateMonoResponceDTO {
                 ", rateSell=" + rateSell +
                 '}';
     }
-
-    public enum Currency {
-        GBP,
-        USD,
-        EUR,
-        PLN,
-        UAH
-    }
 }

@@ -1,1 +1,2 @@
-Telegram bot for currency exchange rates
+# java-core-project-group-5
+ 

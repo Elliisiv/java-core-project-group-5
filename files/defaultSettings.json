@@ -1,5 +1,5 @@
 {
-  "defaultBank": "Privatbank",
+  "defaultBank": "Mono",
   "defaultCurrency": "USD",
   "decimalPlaces": 2,
   "notificationTime": "10.00"

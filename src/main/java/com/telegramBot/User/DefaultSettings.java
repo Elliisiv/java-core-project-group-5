@@ -40,7 +40,7 @@ public class DefaultSettings {
     }
 
     public static void main(String[] args) {
-        DefaultSettings defaultSettings = new DefaultSettings("Privatbank", "USD", 2, "10.00");
+        DefaultSettings defaultSettings = new DefaultSettings("Mono", "USD", 2, "10.00");
         defaultSettings.saveDefaultSettingsToFile();
         System.out.printf(String.valueOf(loadDefaultSettingsFromFile()));
     }

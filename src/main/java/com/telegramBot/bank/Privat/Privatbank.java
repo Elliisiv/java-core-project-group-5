@@ -50,6 +50,22 @@ class GetCurrencyPrivatBank {
         Privatbank result = GetExchangePrivateBank("USD");
 
     }
+    
+        public static double getCurrencySell(BankEnum currency) throws IOException {
+
+        double CurrencySell = Double.parseDouble(String.valueOf(GetExchangePrivateBank(currency).get_saleRate()));        
+        
+        System.out.println("CurrencySell: " + CurrencySell);
+        return CurrencySell;
+    }
+
+    public static double getCurrencyBuy (BankEnum currency) throws IOException {
+        double CurrencyBuy = Double.parseDouble(String.valueOf(GetExchangePrivateBank(currency).get_purchase()));
+
+        System.out.println("CurrencyBuy: " + CurrencyBuy);
+        return CurrencyBuy;
+        
+    }
 
     public static Privatbank GetExchangePrivateBank(String currency) throws IOException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");

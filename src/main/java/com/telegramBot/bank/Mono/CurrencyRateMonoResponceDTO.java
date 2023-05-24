@@ -1,13 +1,10 @@
 package com.telegramBot.bank.Mono;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-
-@Getter
-@Setter
+@Data
 public class CurrencyRateMonoResponceDTO {
     private int currencyCodeA;
     private int currencyCodeB;

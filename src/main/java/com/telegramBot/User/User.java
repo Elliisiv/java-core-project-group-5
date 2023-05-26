@@ -8,6 +8,13 @@ public class User {
     private String[] currencies;
     private int rounding;
     private String time;
+    
+     ///////////////////////////////////////////////
+    // Ira.Y.
+    public long getChatId() {
+        return chatId;
+    }
+    ///////////////////////////////////////////////
 
     public User(long chatId, String bank, String[] currencies, int rounding, String time) {
         this.chatId = chatId;

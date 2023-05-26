@@ -15,6 +15,25 @@ public class CurrencyRateMonoResponceDTO {
     private BigDecimal rateBuy;
     private BigDecimal rateCross;
     private BigDecimal rateSell;
+    
+    ///////////////////////////////////////////////
+    // Ira.Y.
+    public int getCurrencyCodeA() {
+        return currencyCodeA;
+    }
+
+    public int getCurrencyCodeB() {
+        return currencyCodeB;
+    }
+
+    public BigDecimal getRateBuy() {
+        return rateBuy;
+    }
+
+    public BigDecimal getRateSell() {
+        return rateSell;
+    }
+    ///////////////////////////////////////////////
 
     @Override
     public String toString() {

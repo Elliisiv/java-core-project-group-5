@@ -1,6 +1,8 @@
 package com.telegramBot.User;
 import lombok.Data;
 
+import java.util.Arrays;
+
 @Data
 public class User {
     private long chatId;
@@ -22,6 +24,16 @@ public class User {
         this.currencies = currencies;
         this.rounding = rounding;
         this.time = time;
+    }
 
+    @Override
+    public String toString() {
+        return "{" +
+                "chatId=" + chatId +
+                ", bank='" + bank + '\'' +
+                ", currencies=" + Arrays.toString(currencies) +
+                ", rounding=" + rounding +
+                ", time='" + time + '\'' +
+                '}';
     }
 }

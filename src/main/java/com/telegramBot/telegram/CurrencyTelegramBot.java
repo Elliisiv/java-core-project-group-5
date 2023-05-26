@@ -44,7 +44,8 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                 case "Валюти" -> handleCurrenciesSetting(chatId);
                 case "Час оповіщень" -> handleNotificationTimeSetting(chatId);
                 case "Назад" -> sendSettingsKeyboard(chatId);
-                //case "Головне меню" -> sendMainKeyboard(chatId);
+                case "Прийняти" -> sendInfo(chatId);
+                case "Відхилити" -> sendMainKeyboard(chatId);
             }
         }
     }
@@ -122,19 +123,22 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
 
     private KeyboardButton[][] getSettingsButtons() {
-        KeyboardButton[][] buttons = new KeyboardButton[2][2];
+        KeyboardButton[][] buttons = new KeyboardButton[3][2];
 
         KeyboardButton button1 = new KeyboardButton("Кількість знаків після коми");
         KeyboardButton button2 = new KeyboardButton("Банк");
         KeyboardButton button3 = new KeyboardButton("Валюти");
         KeyboardButton button4 = new KeyboardButton("Час оповіщень");
-        //KeyboardButton button5 = new KeyboardButton("Головне меню");
+        KeyboardButton button5 = new KeyboardButton("Прийняти");
+        KeyboardButton button6 = new KeyboardButton("Відхилити");
+
 
         buttons[0][0] = button1;
         buttons[0][1] = button2;
         buttons[1][0] = button3;
         buttons[1][1] = button4;
-        //buttons[2][0] = button5;
+        buttons[2][0] = button5;
+        buttons[2][1] = button6;
 
         return buttons;
     }
@@ -317,7 +321,6 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         return username;
     }
 
-    @Override
     public String getBotToken() {
         return token;
     }

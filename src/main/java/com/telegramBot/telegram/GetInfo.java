@@ -4,6 +4,8 @@ import com.telegramBot.User.User;
 import com.telegramBot.User.UserSettings;
 import com.telegramBot.bank.BankEnum;
 import com.telegramBot.bank.BankEnumFormatter;
+import com.telegramBot.bank.CurrencyEnum;
+import com.telegramBot.bank.CurrencyEnumFormatter;
 import com.telegramBot.bank.Mono.Monobank;
 import com.telegramBot.bank.NBU.NBU;
 import com.telegramBot.bank.Privat.GetCurrencyPrivatbank;
@@ -21,37 +23,41 @@ public class GetInfo {
 
     public static String getInfo() throws IOException {
 
+        String info = "";
         UserSettings userSettings = new UserSettings();
 
-//        long chatId = 12111;    // Mono   +
-        long chatId = 22221;    // Privat  +
+        long chatId = 12111;    // Mono   +
+ //         long chatId = 22221;    // Privat  +
 //        long chatId = 8888888;  // NBU  +
 
         User retrievedUser = userSettings.getUserSettingsByChatId(chatId);
-//        System.out.println("User settings:" +retrievedUser);
 
-        BankEnumFormatter bankFormatter = new BankEnumFormatter();
-        BankEnum bank = bankFormatter.getBankEnumValue(retrievedUser.getCurrencies()[0]);
+        CurrencyEnumFormatter currencyFormatter = new CurrencyEnumFormatter();
 
-        if (retrievedUser.getBank().equals("Privat") ){
+        String [] cur = retrievedUser.getCurrencies();
+        CurrencyEnum [] currency  = new CurrencyEnum[cur.length];
 
-            //retrievedUser.getCurrencies().length
-            info = GetCurrencyPrivatbank.GetExchangePrivatbank(bank , retrievedUser.getRounding());
-        } else if (retrievedUser.getBank().equals("Mono")){
+        for (int i = 0; i < cur.length ; i++){
+            currency[i] = currencyFormatter.getCurrencyEnumValue(cur[i]);
+        }
 
-            info = Monobank.getCurrencySell( bank , retrievedUser.getRounding());
+        String [] banks = retrievedUser.getBanks();
 
-        } else {
+        for (String bank: banks) {
+            if (bank.equals("Privat")) {
 
+                info = info + GetCurrencyPrivatbank.GetExchangePrivatbank(currency, retrievedUser.getRounding());
 
-            info = NBU.getCurrencyRate( bank, retrievedUser.getRounding());
+            } else if (bank.equals("Mono")) {
 
+                info = info +  Monobank.getCurrencySell(currency, retrievedUser.getRounding());
+
+            } else if (bank.equals("NBU")){
+                info = info +  NBU.getCurrencyRate(currency, retrievedUser.getRounding()) ;
+            }
         }
 
         return info ;
     }
-
-
-
 
 }

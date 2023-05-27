@@ -56,6 +56,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                     break;
                 case "Прийняти":
                     sendInfo(chatId);
+                    sendMainKeyboard(chatId);
                     break;
                 case "Відхилити":
                     sendMainKeyboard(chatId);

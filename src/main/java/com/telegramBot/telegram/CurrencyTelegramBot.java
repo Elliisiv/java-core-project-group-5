@@ -78,37 +78,37 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void sendMainKeyboard(long chatId) {
         SendMessage message = createMessage(chatId, "Головне меню");
-        message.setReplyMarkup(KeyboardLayouts.getMainKeyboard());
+        message.setReplyMarkup(MainKeyboard.getMainKeyboard());
         sendMessage(message);
     }
 
     private void sendSettingsKeyboard(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть налаштування");
-        message.setReplyMarkup(KeyboardLayouts.getSettingsKeyboard());
+        message.setReplyMarkup(SettingsKeyboard.getSettingsKeyboard());
         sendMessage(message);
     }
 
     private void handleDecimalPlacesSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть кількість знаків після коми");
-        message.setReplyMarkup(KeyboardLayouts.getDecimalPlaces());
+        message.setReplyMarkup(DecimalPlaces.getDecimalPlaces());
         sendMessage(message);
     }
 
     private void handleBankSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть банк");
-        message.setReplyMarkup(KeyboardLayouts.getBank());
+        message.setReplyMarkup(BankSetting.getBank());
         sendMessage(message);
     }
 
     private void handleCurrenciesSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть валюти");
-        message.setReplyMarkup(KeyboardLayouts.getCurrencies());
+        message.setReplyMarkup(CurrenciesSetting.getCurrencies());
         sendMessage(message);
     }
 
     private void handleNotificationTimeSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть час сповіщень");
-        message.setReplyMarkup(KeyboardLayouts.getNotificationTime());
+        message.setReplyMarkup(NotificationTimeSetting.getNotificationTime());
         sendMessage(message);
     }
 

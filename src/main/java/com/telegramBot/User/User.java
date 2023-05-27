@@ -18,7 +18,7 @@ public class User {
     }
     ///////////////////////////////////////////////
 
-    public User(long chatId, String bank, String[] currencies, int rounding, String time) {
+    public User(long chatId, String[] banks, String[] currencies, int rounding, String time) {
         this.chatId = chatId;
         this.banks = banks;
         this.currencies = currencies;

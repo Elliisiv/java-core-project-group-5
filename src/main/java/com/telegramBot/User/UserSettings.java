@@ -1,6 +1,7 @@
 package com.telegramBot.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,10 +14,12 @@ import java.util.List;
 public class UserSettings {
     private final String settingsFile = "./files/userSettings.json";
 
-    public void createUserSettings(User user) {
+    public void createUserSettings(Update update, String[] banks, String[] currencies, int rounding, String time) {
+        long chatId = update.getMessage().getChatId();
         try {
             List<User> users = getUsers();
-            int index = getUserIndexByChatId(users, user.getChatId());
+            int index = getUserIndexByChatId(users, chatId);
+            User user = new User(chatId, banks, currencies, rounding, time);
             if (index != -1) {
                 users.set(index, user);
             } else {
@@ -28,7 +31,8 @@ public class UserSettings {
         }
     }
 
-    public User getUserSettingsByChatId(long chatId) {
+    public User getUserSettingsByChatId(Update update) {
+        long chatId = update.getMessage().getChatId();
         try {
             List<User> users = getUsers();
             for (User user : users) {

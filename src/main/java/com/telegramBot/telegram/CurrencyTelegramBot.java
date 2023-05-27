@@ -12,6 +12,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.IOException;
+
 public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private final String username;
@@ -29,38 +31,32 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             String messageText = update.getMessage().getText();
 
             switch (messageText) {
-                case "/start":
+                case "/start" -> {
                     sendWelcomeMessage(chatId);
                     sendMainKeyboard(chatId);
-                    break;
-                case "Отримати інфо":
-                    sendInfo(chatId);
-                    break;
-                case "Налаштування":
-                    sendSettingsKeyboard(chatId);
-                    break;
-                case "Кількість знаків після коми":
-                    handleDecimalPlacesSetting(chatId);
-                    break;
-                case "Банк":
-                    handleBankSetting(chatId);
-                    break;
-                case "Валюти":
-                    handleCurrenciesSetting(chatId);
-                    break;
-                case "Час сповіщень":
-                    handleNotificationTimeSetting(chatId);
-                    break;
-                case "Назад":
-                    sendSettingsKeyboard(chatId);
-                    break;
-                case "Прийняти":
-                    sendInfo(chatId);
+                }
+                case "Отримати інфо" -> {
+                    try {
+                        sendInfo(chatId);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                case "Налаштування" -> sendSettingsKeyboard(chatId);
+                case "Кількість знаків після коми" -> handleDecimalPlacesSetting(chatId);
+                case "Банк" -> handleBankSetting(chatId);
+                case "Валюти" -> handleCurrenciesSetting(chatId);
+                case "Час сповіщень" -> handleNotificationTimeSetting(chatId);
+                case "Назад" -> sendSettingsKeyboard(chatId);
+                case "Прийняти" -> {
+                    try {
+                        sendInfo(chatId);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     sendMainKeyboard(chatId);
-                    break;
-                case "Відхилити":
-                    sendMainKeyboard(chatId);
-                    break;
+                }
+                case "Відхилити" -> sendMainKeyboard(chatId);
             }
         }
     }
@@ -71,8 +67,9 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         sendMessage(message);
     }
 
-    private void sendInfo(long chatId) {
-        String currencyInfo = "Курс валют: ";
+    private void sendInfo(long chatId) throws IOException {
+//        String currencyInfo = "Курс валют: ";
+        String currencyInfo = GetInfo.getInfo();
         SendMessage message = createMessage(chatId, currencyInfo);
         sendMessage(message);
     }

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.telegramBot.bank.BankEnum;
+import com.telegramBot.bank.CurrencyEnum;
 import lombok.Value;
 
 import java.io.BufferedReader;
@@ -22,12 +23,12 @@ import java.math.BigDecimal;
 public class GetCurrencyPrivatbank {
 
     public static String desimalCode;//Формат округлення
-    public  static BigDecimal buy;//Покупка валюти
+    public static BigDecimal buy;//Покупка валюти
     public static BigDecimal sell;//Продаж валюти
 
     public static void main(String[] args) throws IOException {
 
-        String result = GetExchangePrivatbank(BankEnum.USD, 2);
+        //String result = GetExchangePrivatbank(CurrencyEnum.USD, 2);
 
     }
 
@@ -47,10 +48,12 @@ public class GetCurrencyPrivatbank {
 //
 //    }
 
-    public static String GetExchangePrivatbank(BankEnum currency, int number) throws IOException {
+    public static String GetExchangePrivatbank(CurrencyEnum[] currency, int number) throws IOException {
+
+        String resultPrivate = "";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        String URL_get_currency = "https://api.privatbank.ua/p24api/exchange_rates?json&date=" + dateFormat.format(new Date() );
+        String URL_get_currency = "https://api.privatbank.ua/p24api/exchange_rates?json&date=" + dateFormat.format(new Date());
 
         Privatbank result = new Privatbank();
 
@@ -81,32 +84,36 @@ public class GetCurrencyPrivatbank {
             Privatbank[] currencyList = gsonR.fromJson(exchangeRateArray, Privatbank[].class);
 
 
-            for (Privatbank currencyNeeded : currencyList) {
-                if(currency.equals(currencyNeeded.get_currency())){
-                    result = currencyNeeded ;
-                }
-            }
-            int a = 5;
+            for (CurrencyEnum cur : currency) {
 
+                for (Privatbank currencyNeeded : currencyList) {
+                    if (cur.equals(currencyNeeded.get_currency())) {
+                        result = currencyNeeded;
+                    }
+
+                }
+                    buy = result.get_saleRate();
+                    sell = result.get_purchase();
+
+                    switch (number) {
+                        case 2 -> desimalCode = "#.##";
+                        case 3 -> desimalCode = "#.###";
+                        case 4 -> desimalCode = "#.####";
+                        default -> desimalCode = "#.#";
+                    }
+                    DecimalFormat decimalFormat = new DecimalFormat(desimalCode);
+                    String resultForSell = decimalFormat.format(sell);
+                    String resultForBuy = decimalFormat.format(buy);
+
+                    resultPrivate = resultPrivate + "\n\nКурс в Приват банк: " + cur + "/UAH\nПокупка: " + resultForSell + "\nПродажа: " + resultForBuy;
+
+
+            }
         } else {
             System.out.println("GetExchangePrivateBank request not worked");
         }
 
-        buy = result.get_saleRate();
-        sell = result.get_purchase();
-
-        switch (number) {
-            case 2 -> desimalCode="#.##";
-            case 3 -> desimalCode="#.###";
-            case 4 -> desimalCode="#.####";
-            default -> desimalCode="#.#";
-        }
-        DecimalFormat decimalFormat = new DecimalFormat(desimalCode);
-        String resultForSell = decimalFormat.format(sell);
-        String resultForBuy = decimalFormat.format(buy);
-
-        String resultPrivate = "Курс в Приват банк: "+currency+"/UAH\nПокупка: "+resultForSell+"\nПродажа: "+resultForBuy;
-
         return resultPrivate;
     }
+
 }

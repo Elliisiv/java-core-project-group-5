@@ -2,7 +2,7 @@ package com.telegramBot.bank.NBU;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.telegramBot.bank.BankEnum;
+import com.telegramBot.bank.CurrencyEnum;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
@@ -14,7 +14,9 @@ import java.util.List;
 public class NBU {
     public static String desimalCode;//Формат округлення
     private static String url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
-    public static String getCurrencyRate(BankEnum currency, int number) {
+    public static String getCurrencyRate(CurrencyEnum [] currency, int number) {
+
+        String resultNBU = "";
 
         String json;
         {
@@ -31,24 +33,27 @@ public class NBU {
         Type type = TypeToken.getParameterized(List.class, NBUdto.class).getType();
         List<NBUdto> items = new Gson().fromJson(json, type);
 
-         double rez = items.stream()
-                .filter(item -> item.getCc() == currency)
-                .map(item -> item.getRate())
-                .findFirst()
-                .orElseThrow();
+        for (CurrencyEnum cur : currency) {
+
+            double rez = items.stream()
+                    .filter(item -> item.getCc() == cur)
+                    .map(item -> item.getRate())
+                    .findFirst()
+                    .orElseThrow();
 
             switch (number) {
-                case 2 -> desimalCode="#.##";
-                case 3 -> desimalCode="#.###";
-                case 4 -> desimalCode="#.####";
-                default -> desimalCode="#.#";
+                case 2 -> desimalCode = "#.##";
+                case 3 -> desimalCode = "#.###";
+                case 4 -> desimalCode = "#.####";
+                default -> desimalCode = "#.#";
             }
             DecimalFormat decimalFormat = new DecimalFormat(desimalCode);
             String result = decimalFormat.format(rez);
 
 
-            String resultNBU = "Курс в НБУ: "+currency+"/UAH\n"+ result ;
+            resultNBU = resultNBU + "\n\nКурс в НБУ: " + cur + "/UAH\n" + result;
 
+        }
          return resultNBU ;
     }
 }

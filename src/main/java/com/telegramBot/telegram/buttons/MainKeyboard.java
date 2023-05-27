@@ -22,7 +22,7 @@ public class MainKeyboard {
         List<KeyboardRow> keyboard = new ArrayList<>();
 
         KeyboardRow row1 = new KeyboardRow();
-        row1.add(new KeyboardButton("Отримати інф"));
+        row1.add(new KeyboardButton("Отримати інфо"));
         row1.add(new KeyboardButton("Налаштування"));
 
         keyboard.add(row1);

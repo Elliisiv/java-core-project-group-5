@@ -1,5 +1,12 @@
 package com.telegramBot.telegram;
 
+import com.telegramBot.telegram.buttons.MainKeyboard;
+import com.telegramBot.telegram.buttons.SettingsKeyboard;
+import com.telegramBot.telegram.buttons.DecimalPlaces;
+import com.telegramBot.telegram.buttons.BankSetting;
+import com.telegramBot.telegram.buttons.CurrenciesSetting;
+import com.telegramBot.telegram.buttons.NotificationTimeSetting;
+
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;

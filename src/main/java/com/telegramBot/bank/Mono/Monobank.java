@@ -1,7 +1,7 @@
 package com.telegramBot.bank.Mono;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.telegramBot.bank.BankEnum;
+import com.telegramBot.bank.CurrencyEnum;
 import org.jsoup.Jsoup;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -9,8 +9,6 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.telegramBot.bank.BankEnum.*;
 
 public class Monobank {
 
@@ -22,7 +20,7 @@ public class Monobank {
     public static BigDecimal sell;//Продаж валюти
 
 
-    public static String getCurrencySell(BankEnum currency, int number) {
+    public static String getCurrencySell(CurrencyEnum [] currency, int number) {
 
         String json = null;
         try {
@@ -43,39 +41,43 @@ public class Monobank {
 
         List<CurrencyRateMonoResponceDTO> filteredObjects = new ArrayList<>();
 
-        switch (currency) {
-            case USD -> desiredCode = 840;
-            case EUR -> desiredCode = 978;
-            default -> desiredCode = 980;
-        }
+        for (CurrencyEnum cur : currency) {
 
-        for (CurrencyRateMonoResponceDTO it: items){
-            if (it.getCurrencyCodeA()==desiredCode && it.getCurrencyCodeB()==980){
-                filteredObjects.add(it);
+            switch (cur) {
+                case USD -> desiredCode = 840;
+                case EUR -> desiredCode = 978;
+                default -> desiredCode = 980;
             }
+
+            for (CurrencyRateMonoResponceDTO it : items) {
+                if (it.getCurrencyCodeA() == desiredCode && it.getCurrencyCodeB() == 980) {
+                    filteredObjects.add(it);
+                }
+            }
+
+            //Выводим найденные объекты
+            for (CurrencyRateMonoResponceDTO it : filteredObjects) {
+                buy = it.getRateBuy();
+                sell = it.getRateSell();
+            }
+
+            //Знаки после запятой;
+
+            switch (number) {
+                case 2 -> desimalCode = "#.##";
+                case 3 -> desimalCode = "#.###";
+                case 4 -> desimalCode = "#.####";
+                default -> desimalCode = "#.#";
+            }
+            DecimalFormat decimalFormat = new DecimalFormat(desimalCode);
+            String resultForSell = decimalFormat.format(sell);
+            String resultForBuy = decimalFormat.format(buy);
+
+            resultMono = resultMono + "\n\nКурс в Монобанк:" + cur + "/UAH\nПокупка: " + resultForSell + "\nПродажа: " + resultForBuy;
+
         }
-
-        //Выводим найденные объекты
-        for (CurrencyRateMonoResponceDTO it : filteredObjects) {
-            buy = it.getRateBuy();
-            sell = it.getRateSell();
-        }
-
-        //Знаки после запятой;
-
-        switch (number) {
-            case 2 -> desimalCode="#.##";
-            case 3 -> desimalCode="#.###";
-            case 4 -> desimalCode="#.####";
-            default -> desimalCode="#.#";
-        }
-        DecimalFormat decimalFormat = new DecimalFormat(desimalCode);
-        String resultForSell = decimalFormat.format(sell);
-        String resultForBuy = decimalFormat.format(buy);
-
-        resultMono = "Курс в Монобанк:"+currency+"/UAH\nПокупка: "+resultForSell+"\nПродажа: "+resultForBuy;
-
         return resultMono;
     }
 
 }
+

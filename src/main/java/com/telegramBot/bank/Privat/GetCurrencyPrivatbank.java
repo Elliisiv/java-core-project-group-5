@@ -105,7 +105,7 @@ public class GetCurrencyPrivatbank {
                     String resultForSell = decimalFormat.format(sell);
                     String resultForBuy = decimalFormat.format(buy);
 
-                    resultPrivate = resultPrivate + "\n\nКурс в Приват банк: " + cur + "/UAH\nПокупка: " + resultForSell + "\nПродажа: " + resultForBuy;
+                    resultPrivate = resultPrivate + "\n\nКурс в Приват банку: " + cur + "/UAH\nКупівля: " + resultForSell + "\nПродаж: " + resultForBuy;
 
 
             }

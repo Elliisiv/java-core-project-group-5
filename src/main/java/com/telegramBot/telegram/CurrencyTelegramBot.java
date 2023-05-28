@@ -1,5 +1,7 @@
 package com.telegramBot.telegram;
 
+import com.telegramBot.User.User;
+import com.telegramBot.User.UserSettings;
 import com.telegramBot.telegram.buttons.MainKeyboard;
 import com.telegramBot.telegram.buttons.SettingsKeyboard;
 import com.telegramBot.telegram.buttons.DecimalPlaces;
@@ -13,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
+import java.util.List;
 
 public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
@@ -65,13 +68,16 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         String welcomeMessage = "Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют";
         SendMessage message = createMessage(chatId, welcomeMessage);
         sendMessage(message);
+        //запуск методу для створееня юзера і стандартних налаштувань
+        UserSettings userSettings = new UserSettings();
+        userSettings.createDefaultSettings(chatId);
     }
 
     private void sendInfo(long chatId) throws IOException {
 //        String currencyInfo = "Курс валют: ";
-        String currencyInfo = GetInfo.getInfo();
-        SendMessage message = createMessage(chatId, currencyInfo);
-        sendMessage(message);
+//        String currencyInfo = GetInfo.getInfo();
+//        SendMessage message = createMessage(chatId, currencyInfo);
+//        sendMessage(message);
     }
 
     private void sendMainKeyboard(long chatId) {

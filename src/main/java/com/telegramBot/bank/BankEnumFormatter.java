@@ -4,9 +4,9 @@ public class BankEnumFormatter {
     public BankEnum getBankEnumValue(String enam) {
         switch (enam) {
             case "Privat":
-                return BankEnum.Privat;
+                return BankEnum.PRIVAT;
             case "Mono":
-                return BankEnum.Mono;
+                return BankEnum.MONO;
             case "NBU":
                 return BankEnum.NBU;
         }

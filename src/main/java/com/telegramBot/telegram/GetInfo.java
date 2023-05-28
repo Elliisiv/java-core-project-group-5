@@ -41,18 +41,18 @@ public class GetInfo {
             currency[i] = currencyFormatter.getCurrencyEnumValue(cur[i]);
         }
 
-        String [] banks = retrievedUser.getBanks();
+        BankEnum [] banks = retrievedUser.getBanks();
 
-        for (String bank: banks) {
-            if (bank.equals("Privat")) {
+        for (BankEnum bank: banks) {
+            if (bank == BankEnum.PRIVAT) {
 
                 info = info + GetCurrencyPrivatbank.GetExchangePrivatbank(currency, retrievedUser.getRounding());
 
-            } else if (bank.equals("Mono")) {
+            } else if (bank == BankEnum.MONO) {
 
                 info = info +  Monobank.getCurrencySell(currency, retrievedUser.getRounding());
 
-            } else if (bank.equals("NBU")){
+            } else if (bank == BankEnum.NBU){
                 info = info +  NBU.getCurrencyRate(currency, retrievedUser.getRounding()) ;
             }
         }

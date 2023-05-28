@@ -1,4 +1,5 @@
 package com.telegramBot.User;
+import com.telegramBot.bank.BankEnum;
 import lombok.Data;
 
 import java.util.Arrays;
@@ -6,7 +7,7 @@ import java.util.Arrays;
 @Data
 public class User {
     private long chatId;
-    private String [] banks;
+    private BankEnum[] banks;
     private String[] currencies;
     private int rounding;
     private String time;
@@ -18,7 +19,7 @@ public class User {
     }
     ///////////////////////////////////////////////
 
-    public User(long chatId, String banks [], String[] currencies, int rounding, String time) {
+    public User(long chatId, BankEnum banks [], String[] currencies, int rounding, String time) {
         this.chatId = chatId;
         this.banks = banks;
         this.currencies = currencies;

@@ -62,7 +62,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     }
 
     private void sendWelcomeMessage(long chatId) {
-        String welcomeMessage = "Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют";
+        String welcomeMessage = chatId + " Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют";
         SendMessage message = createMessage(chatId, welcomeMessage);
         sendMessage(message);
     }
@@ -94,7 +94,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void handleBankSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть банк");
-        message.setReplyMarkup(BankSetting.getBank());
+        message.setReplyMarkup(BankSetting.getBank(chatId));
         sendMessage(message);
     }
 

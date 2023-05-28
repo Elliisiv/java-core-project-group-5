@@ -30,7 +30,7 @@ public class User {
     public String toString() {
         return "{" +
                 "chatId=" + chatId +
-                ", bank='" + banks + '\'' +
+                ", bank='" + Arrays.toString(banks) + '\'' +
                 ", currencies=" + Arrays.toString(currencies) +
                 ", rounding=" + rounding +
                 ", time='" + time + '\'' +

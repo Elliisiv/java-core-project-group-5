@@ -2,7 +2,6 @@ package com.telegramBot.telegram.buttons;
 
 import com.telegramBot.User.User;
 import com.telegramBot.User.UserSettings;
-import com.telegramBot.bank.BankEnum;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -24,55 +23,39 @@ public class BankSetting {
 
         UserSettings userSettings = new UserSettings();
         User user = userSettings.getUserSettingsByChatId(chatId);
-        BankEnum[] banks = user.getBanks();
-        boolean[] bankContainer = {false,false,false};
-        for (BankEnum  bank: banks) {
-            if(bank == BankEnum.PRIVAT) {
-                bankContainer[0] = true;
-            } else if (bank == BankEnum.MONO) {
-                bankContainer[1] = true;
-            } else if (bank == BankEnum.NBU) {
-                bankContainer[2] = true;
-            }
-        }
 
         KeyboardRow row1 = new KeyboardRow();
-        if(!bankContainer[0]&&!bankContainer[1]&&!bankContainer[2]) {
-            row1.add(new KeyboardButton("ПриватБанк"));
-            row1.add(new KeyboardButton("Монобанк"));
-            row1.add(new KeyboardButton("НБУ"));
-        }
-        if(!bankContainer[0]&&!bankContainer[1]&&bankContainer[2]) {
+        if(!user.isPrivatBank()&&!user.isMonoBank()&&user.isNbuBank()) {
             row1.add(new KeyboardButton("ПриватБанк"));
             row1.add(new KeyboardButton("Монобанк"));
             row1.add(new KeyboardButton("НБУ ✅"));
         }
-        if(!bankContainer[0]&&bankContainer[1]&&!bankContainer[2]) {
+        if(!user.isPrivatBank()&&user.isMonoBank()&&!user.isNbuBank()) {
             row1.add(new KeyboardButton("ПриватБанк"));
             row1.add(new KeyboardButton("Монобанк ✅"));
             row1.add(new KeyboardButton("НБУ"));
         }
-        if(!bankContainer[0]&&bankContainer[1]&&bankContainer[2]) {
+        if(!user.isPrivatBank()&&user.isMonoBank()&&user.isNbuBank()) {
             row1.add(new KeyboardButton("ПриватБанк"));
             row1.add(new KeyboardButton("Монобанк ✅"));
             row1.add(new KeyboardButton("НБУ ✅"));
         }
-        if(bankContainer[0]&&!bankContainer[1]&&!bankContainer[2]) {
+        if(user.isPrivatBank()&&!user.isMonoBank()&&!user.isNbuBank()) {
             row1.add(new KeyboardButton("ПриватБанк ✅"));
             row1.add(new KeyboardButton("Монобанк"));
             row1.add(new KeyboardButton("НБУ"));
         }
-        if(bankContainer[0]&&!bankContainer[1]&&bankContainer[2]) {
+        if(user.isPrivatBank()&&!user.isMonoBank()&&user.isNbuBank()) {
             row1.add(new KeyboardButton("ПриватБанк ✅"));
             row1.add(new KeyboardButton("Монобанк"));
             row1.add(new KeyboardButton("НБУ ✅"));
         }
-        if(bankContainer[0]&&bankContainer[1]&&!bankContainer[2]) {
+        if(user.isPrivatBank()&&user.isMonoBank()&&!user.isNbuBank()) {
             row1.add(new KeyboardButton("ПриватБанк ✅"));
             row1.add(new KeyboardButton("Монобанк ✅"));
             row1.add(new KeyboardButton("НБУ"));
         }
-        if(bankContainer[0]&&bankContainer[1]&&bankContainer[2]) {
+        if(user.isPrivatBank()&&user.isMonoBank()&&user.isNbuBank()) {
             row1.add(new KeyboardButton("ПриватБанк ✅"));
             row1.add(new KeyboardButton("Монобанк ✅"));
             row1.add(new KeyboardButton("НБУ ✅"));

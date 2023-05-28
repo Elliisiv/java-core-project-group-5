@@ -1,14 +1,14 @@
 package com.telegramBot.User;
-import com.telegramBot.bank.BankEnum;
 import lombok.Data;
-
-import java.util.Arrays;
 
 @Data
 public class User {
     private long chatId;
-    private BankEnum[] banks;
-    private String[] currencies;
+    private boolean privatBank;
+    private boolean monoBank;
+    private boolean nbuBank;
+    private boolean usdCurr;
+    private boolean eurCurr;
     private int rounding;
     private String time;
     
@@ -19,20 +19,26 @@ public class User {
     }
     ///////////////////////////////////////////////
 
-    public User(long chatId, BankEnum banks [], String[] currencies, int rounding, String time) {
+    public User(long chatId, boolean privatBank, boolean monoBank, boolean nbuBank, boolean usdCurr, boolean eurCurr, int rounding, String time) {
         this.chatId = chatId;
-        this.banks = banks;
-        this.currencies = currencies;
+        this.privatBank = privatBank;
+        this.monoBank = monoBank;
+        this.nbuBank = nbuBank;
+        this.usdCurr = usdCurr;
+        this.eurCurr = eurCurr;
         this.rounding = rounding;
         this.time = time;
     }
 
     @Override
     public String toString() {
-        return "{" +
+        return "User{" +
                 "chatId=" + chatId +
-                ", bank='" + banks + '\'' +
-                ", currencies=" + Arrays.toString(currencies) +
+                ", privatBank=" + privatBank +
+                ", monoBank=" + monoBank +
+                ", nbuBank=" + nbuBank +
+                ", usdCurr=" + usdCurr +
+                ", eurCurr=" + eurCurr +
                 ", rounding=" + rounding +
                 ", time='" + time + '\'' +
                 '}';

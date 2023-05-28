@@ -69,7 +69,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void sendInfo(long chatId) throws IOException {
 //        String currencyInfo = "Курс валют: ";
-        String currencyInfo = GetInfo.getInfo();
+        String currencyInfo = GetInfo.getInfo(chatId);
         SendMessage message = createMessage(chatId, currencyInfo);
         sendMessage(message);
     }
@@ -88,7 +88,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void handleDecimalPlacesSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть кількість знаків після коми");
-        message.setReplyMarkup(DecimalPlaces.getDecimalPlaces());
+        message.setReplyMarkup(DecimalPlaces.getDecimalPlaces(chatId));
         sendMessage(message);
     }
 
@@ -100,13 +100,13 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void handleCurrenciesSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть валюти");
-        message.setReplyMarkup(CurrenciesSetting.getCurrencies());
+        message.setReplyMarkup(CurrenciesSetting.getCurrencies(chatId));
         sendMessage(message);
     }
 
     private void handleNotificationTimeSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть час сповіщень");
-        message.setReplyMarkup(NotificationTimeSetting.getNotificationTime());
+        message.setReplyMarkup(NotificationTimeSetting.getNotificationTime(chatId));
         sendMessage(message);
     }
 

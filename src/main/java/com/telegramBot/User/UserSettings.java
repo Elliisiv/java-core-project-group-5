@@ -46,6 +46,28 @@ public class UserSettings {
         return null;
     }
 
+    //метод для запису налаштувань
+    public void createDefaultSettings(long chatId) {
+        String[] banks = {"Privat"};
+        String[] currencies = {"USD"};
+        int rounding = 2;
+        String time = "10:00";
+
+        try {
+            List<User> users = getUsers();
+            int index = getUserIndexByChatId(users, chatId);
+            User user = new User(chatId, banks, currencies, rounding, time);
+            if (index != -1) {
+                users.set(index, user);
+            } else {
+                users.add(user);
+            }
+            saveUserSettings(users);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private List<User> getUsers() throws IOException {
         List<User> users = new ArrayList<>();
         File storageFile = new File(settingsFile);

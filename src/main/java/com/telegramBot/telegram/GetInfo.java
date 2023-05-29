@@ -17,10 +17,10 @@ public class GetInfo {
 
     public static String info;
 
-    public static void main(String[] args) throws IOException {
-     ///   info = getInfo();
-      //  System.out.println(info);
-    }
+//    public static void main(String[] args) throws IOException {
+//     ///   info = getInfo();
+//      //  System.out.println(info);
+//    }
 
     public static String getInfo(long chatId) throws IOException {
 

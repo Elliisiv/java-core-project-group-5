@@ -2,12 +2,7 @@ package com.telegramBot.telegram;
 
 import com.telegramBot.User.User;
 import com.telegramBot.User.UserSettings;
-import com.telegramBot.telegram.buttons.MainKeyboard;
-import com.telegramBot.telegram.buttons.SettingsKeyboard;
-import com.telegramBot.telegram.buttons.DecimalPlaces;
-import com.telegramBot.telegram.buttons.BankSetting;
-import com.telegramBot.telegram.buttons.CurrenciesSetting;
-import com.telegramBot.telegram.buttons.NotificationTimeSetting;
+import com.telegramBot.telegram.buttons.*;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -21,10 +16,12 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private final String username;
     private final String token;
+    private ButtonHandler buttonHandler;
 
     public CurrencyTelegramBot(String username, String token) {
         this.username = username;
         this.token = token;
+        this.buttonHandler = new ButtonHandler();
     }
 
     @Override
@@ -60,8 +57,36 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                     sendMainKeyboard(chatId);
                 }
                 case "Відхилити" -> sendMainKeyboard(chatId);
+                default -> {
+                    // Перевіряємо, чи натиснута кнопка банку
+                    if (isBankButton(messageText)) {
+                        buttonHandler.handleBankButton(messageText, chatId);
+                    }
+                    if (isCurrencyButton(messageText)) {
+                        buttonHandler.handleCurrencyButton(messageText, chatId);
+                    }
+                    if (isRoundingButton(messageText)) {
+                        buttonHandler.handleRoundingButton(messageText, chatId);
+                    }
+                    if (isTimeButton(messageText)) {
+                        buttonHandler.handleTimeButton(messageText, chatId);
+                    }
+                }
             }
         }
+    }
+
+    private boolean isBankButton(String buttonText) {
+        return buttonText.equals("НБУ") || buttonText.equals("ПриватБанк") || buttonText.equals("Монобанк");
+    }
+    private boolean isCurrencyButton(String buttonText) {
+        return buttonText.equals("USD") || buttonText.equals("EUR");
+    }
+    private boolean isRoundingButton(String buttonText) {
+        return buttonText.equals("2") || buttonText.equals("3")|| buttonText.equals("4");
+    }
+    private boolean isTimeButton(String buttonText) {
+        return buttonText.equals("9") || buttonText.equals("10")|| buttonText.equals("11")|| buttonText.equals("13")|| buttonText.equals("14")|| buttonText.equals("15")|| buttonText.equals("16")|| buttonText.equals("17")|| buttonText.equals("18");
     }
 
     private void sendWelcomeMessage(long chatId) {

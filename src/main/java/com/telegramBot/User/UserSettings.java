@@ -12,6 +12,15 @@ import java.util.List;
 
 public class UserSettings {
     private final String settingsFile = "./files/userSettings.json";
+    public void updateUserSettings(User user) {
+        long chatId = user.getChatId();
+        String[] banks = user.getBanks();
+        String[] currencies = user.getCurrencies();
+        int rounding = user.getRounding();
+        String time = user.getTime();
+
+        updateUserSettings(chatId, banks, currencies, rounding, time);
+    }
 
     public void updateUserSettings(long chatId, String[] banks, String[] currencies, int rounding, String time) {
         //long chatId = update.getMessage().getChatId();

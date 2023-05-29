@@ -106,7 +106,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void handleCurrenciesSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть валюти");
-        message.setReplyMarkup(CurrenciesSetting.getCurrencies());
+        message.setReplyMarkup(CurrenciesSetting.getCurrencies(chatId));
         sendMessage(message);
     }
 

@@ -74,9 +74,14 @@ public class Monobank {
             String resultForBuy = decimalFormat.format(buy);
 
             resultMono = resultMono + "\n\nКурс в Монобанк:" + cur + "/UAH\nПокупка: " + resultForSell + "\nПродажа: " + resultForBuy;
+            //змінити строку виводу, купівля і продаж
 
         }
         return resultMono;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getCurrencySell(new CurrencyEnum[]{CurrencyEnum.EUR}, 4));
     }
 
 }

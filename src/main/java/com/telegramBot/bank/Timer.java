@@ -19,7 +19,7 @@ public class Timer {
         LocalTime currentTime = LocalTime.now();
 
         // Час до наступного запуску (21:00)
-        long initialDelay = LocalTime.of(12, 33).toNanoOfDay() - currentTime.toNanoOfDay();
+        long initialDelay = LocalTime.of(18, 30).toNanoOfDay() - currentTime.toNanoOfDay();
 
         if (initialDelay < 0) {
             // Якщо поточний час вже пройшов 21:00, додаємо 1 день до initialDelay

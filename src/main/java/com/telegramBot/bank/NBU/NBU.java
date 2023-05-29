@@ -52,6 +52,7 @@ public class NBU {
 
 
             resultNBU = resultNBU + "\n\nКурс в НБУ: " + cur + "/UAH\n" + result;
+            //написати шось
 
         }
          return resultNBU ;

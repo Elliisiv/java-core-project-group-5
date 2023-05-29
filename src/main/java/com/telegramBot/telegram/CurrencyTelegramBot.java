@@ -119,7 +119,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void handleDecimalPlacesSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть кількість знаків після коми");
-        message.setReplyMarkup(DecimalPlaces.getDecimalPlaces());
+        message.setReplyMarkup(DecimalPlaces.getDecimalPlaces(chatId));
         sendMessage(message);
     }
 

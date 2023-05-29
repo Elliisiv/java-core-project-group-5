@@ -58,7 +58,7 @@ public class UserSettings {
         String[] banks = {"Privat"};
         String[] currencies = {"USD"};
         int rounding = 2;
-        String time = "10:00";
+        String time = "10";
 
         try {
             List<User> users = getUsers();

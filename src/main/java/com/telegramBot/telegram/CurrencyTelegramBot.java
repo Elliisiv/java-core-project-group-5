@@ -1,25 +1,38 @@
 package com.telegramBot.telegram;
 
-import com.telegramBot.telegram.buttons.MainKeyboard;
-import com.telegramBot.telegram.buttons.SettingsKeyboard;
-import com.telegramBot.telegram.buttons.DecimalPlaces;
-import com.telegramBot.telegram.buttons.BankSetting;
-import com.telegramBot.telegram.buttons.CurrenciesSetting;
-import com.telegramBot.telegram.buttons.NotificationTimeSetting;
+import com.telegramBot.User.User;
+import com.telegramBot.User.UserSettings;
+import com.telegramBot.bank.Timer;
+import com.telegramBot.telegram.buttons.*;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.time.temporal.ChronoUnit;
+
 public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private final String username;
     private final String token;
+    private ButtonHandler buttonHandler;
 
     public CurrencyTelegramBot(String username, String token) {
         this.username = username;
         this.token = token;
+        this.buttonHandler = new ButtonHandler();
     }
 
     @Override
@@ -29,51 +42,81 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             String messageText = update.getMessage().getText();
 
             switch (messageText) {
-                case "/start":
-                    sendWelcomeMessage(chatId);
+                case "/start" -> {
                     sendWelcomeMessage(chatId);
                     start(chatId);
-                    //sendMainKeyboard(chatId);
-                    break;
-                case "Отримати інфо":
-                    sendInfo(chatId);
-                    break;
-                case "Налаштування":
-                    sendSettingsKeyboard(chatId);
-                    break;
-                case "Кількість знаків після коми":
-                    handleDecimalPlacesSetting(chatId);
-                    break;
-                case "Банк":
-                    handleBankSetting(chatId);
-                    break;
-                case "Валюти":
-                    handleCurrenciesSetting(chatId);
-                    break;
-                case "Час сповіщень":
-                    handleNotificationTimeSetting(chatId);
-                    break;
-                case "Назад":
-                    sendSettingsKeyboard(chatId);
-                    break;
-                case "Прийняти":
-                    sendInfo(chatId);
-                    break;
-                case "Відхилити":
+//                    sendWelcomeMessage(chatId);
+//                    sendMainKeyboard(chatId);
+                }
+                case "Отримати інфо" -> {
+                    try {
+                        sendInfo(chatId);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                case "Налаштування" -> sendSettingsKeyboard(chatId);
+                case "Кількість знаків після коми" -> handleDecimalPlacesSetting(chatId);
+                case "Банк" -> handleBankSetting(chatId);
+                case "Валюти" -> handleCurrenciesSetting(chatId);
+                case "Час сповіщень" -> handleNotificationTimeSetting(chatId);
+                case "Назад" -> sendSettingsKeyboard(chatId);
+                case "Прийняти" -> {
+                    try {
+                        sendInfo(chatId);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     sendMainKeyboard(chatId);
-                    break;
+                }
+                case "Відхилити" -> sendMainKeyboard(chatId);
+                default -> {
+                    // Перевіряємо, чи натиснута кнопка банку
+                    if (isBankButton(messageText)) {
+                        buttonHandler.handleBankButton(messageText, chatId);
+                    }
+                    if (isCurrencyButton(messageText)) {
+                        buttonHandler.handleCurrencyButton(messageText, chatId);
+                    }
+                    if (isRoundingButton(messageText)) {
+                        buttonHandler.handleRoundingButton(messageText, chatId);
+                    }
+                    if (isTimeButton(messageText)) {
+                        buttonHandler.handleTimeButton(messageText, chatId);
+                    }
+                }
             }
         }
+    }
+
+
+   
+
+    private boolean isBankButton(String buttonText) {
+        return buttonText.equals("НБУ") || buttonText.equals("ПриватБанк") || buttonText.equals("Монобанк");
+    }
+    private boolean isCurrencyButton(String buttonText) {
+        return buttonText.equals("USD") || buttonText.equals("EUR");
+    }
+    private boolean isRoundingButton(String buttonText) {
+        return buttonText.equals("2") || buttonText.equals("3")|| buttonText.equals("4");
+    }
+    private boolean isTimeButton(String buttonText) {
+        return buttonText.equals("9") || buttonText.equals("10")|| buttonText.equals("11")|| buttonText.equals("13")|| buttonText.equals("14")|| buttonText.equals("15")|| buttonText.equals("16")|| buttonText.equals("17")|| buttonText.equals("18");
     }
 
     private void sendWelcomeMessage(long chatId) {
         String welcomeMessage = "Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют";
         SendMessage message = createMessage(chatId, welcomeMessage);
         sendMessage(message);
+        //запуск методу для створееня юзера і стандартних налаштувань
+        UserSettings userSettings = new UserSettings();
+        userSettings.createDefaultSettings(chatId);
     }
 
-    private void sendInfo(long chatId) {
-        String currencyInfo = "Курс валют: ";
+    private void sendInfo(long chatId) throws IOException {
+//        String currencyInfo = "Курс валют: ";
+        String currencyInfo = GetInfo.getInfo(chatId);
         SendMessage message = createMessage(chatId, currencyInfo);
         sendMessage(message);
     }
@@ -92,7 +135,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void handleDecimalPlacesSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть кількість знаків після коми");
-        message.setReplyMarkup(DecimalPlaces.getDecimalPlaces());
+        message.setReplyMarkup(DecimalPlaces.getDecimalPlaces(chatId));
         sendMessage(message);
     }
 
@@ -104,7 +147,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void handleCurrenciesSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть валюти");
-        message.setReplyMarkup(CurrenciesSetting.getCurrencies());
+        message.setReplyMarkup(CurrenciesSetting.getCurrencies(chatId));
         sendMessage(message);
     }
 
@@ -137,7 +180,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     public String getBotToken() {
         return token;
     }
-    
+
     private void start(long chatId) {
         LocalDateTime start = LocalDateTime.now();
 
@@ -178,4 +221,5 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         startBut.start();
         startTimer.start();
     }
+
 }

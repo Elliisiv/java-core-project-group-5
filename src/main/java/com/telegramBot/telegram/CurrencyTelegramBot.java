@@ -31,7 +31,9 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             switch (messageText) {
                 case "/start":
                     sendWelcomeMessage(chatId);
-                    sendMainKeyboard(chatId);
+                    sendWelcomeMessage(chatId);
+                    start(chatId);
+                    //sendMainKeyboard(chatId);
                     break;
                 case "Отримати інфо":
                     sendInfo(chatId);
@@ -134,5 +136,46 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     public String getBotToken() {
         return token;
+    }
+    
+    private void start(long chatId) {
+        LocalDateTime start = LocalDateTime.now();
+
+        Thread startBut = new Thread(() -> {
+            sendMainKeyboard(chatId);
+        });
+
+        Thread startTimer = new Thread(() -> {
+            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            LocalTime currentTime = LocalTime.now();
+
+            UserSettings userSettings = new UserSettings();
+            User retrievedUser = userSettings.getUserSettingsByChatId(chatId);
+            int timeInt = Integer.parseInt(retrievedUser.getTime());
+
+            LocalTime targetTime = LocalTime.of(timeInt, 06); // Задайте бажаний час
+
+            long initialDelay = ChronoUnit.MILLIS.between(currentTime, targetTime);
+            if (initialDelay < 0) {
+                // Якщо поточний час вже пройшов бажаний час, додаємо 1 день до initialDelay
+                initialDelay += TimeUnit.DAYS.toMillis(1);
+            }
+
+            long period = TimeUnit.DAYS.toMillis(1);
+
+            ScheduledFuture<?> future = executor.scheduleAtFixedRate(() -> {
+                try {
+                    sendInfo(chatId);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }, initialDelay, period, TimeUnit.MILLISECONDS);
+
+            // Зупиняємо виконання потока після 24 годин
+            executor.schedule(() -> future.cancel(true), period, TimeUnit.MILLISECONDS);
+        });
+
+        startBut.start();
+        startTimer.start();
     }
 }

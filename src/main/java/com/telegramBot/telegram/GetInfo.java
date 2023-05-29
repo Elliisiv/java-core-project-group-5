@@ -9,6 +9,7 @@ import com.telegramBot.bank.CurrencyEnumFormatter;
 import com.telegramBot.bank.Mono.Monobank;
 import com.telegramBot.bank.NBU.NBU;
 import com.telegramBot.bank.Privat.GetCurrencyPrivatbank;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.IOException;
 
@@ -17,45 +18,58 @@ public class GetInfo {
     public static String info;
 
     public static void main(String[] args) throws IOException {
-        info = getInfo();
-        System.out.println(info);
+     ///   info = getInfo();
+      //  System.out.println(info);
     }
 
-    public static String getInfo() throws IOException {
+    public static String getInfo(long chatId) throws IOException {
 
         String info = "";
         UserSettings userSettings = new UserSettings();
 
-        long chatId = 12111;    // Mono   +
+        
+   //     long chatId = 12111;    // Mono   +
  //         long chatId = 22221;    // Privat  +
 //        long chatId = 8888888;  // NBU  +
 
+
         User retrievedUser = userSettings.getUserSettingsByChatId(chatId);
-
         CurrencyEnumFormatter currencyFormatter = new CurrencyEnumFormatter();
+        
 
-        String [] cur = retrievedUser.getCurrencies();
-        CurrencyEnum [] currency  = new CurrencyEnum[cur.length];
-
-        for (int i = 0; i < cur.length ; i++){
-            currency[i] = currencyFormatter.getCurrencyEnumValue(cur[i]);
+        CurrencyEnum [] currency = new CurrencyEnum[0];
+        
+        if(retrievedUser.getUsdCurr() && retrievedUser.getEurCurr()){
+            currency  = new CurrencyEnum[2];
+            currency [0] = currencyFormatter.getCurrencyEnumValue("USD");  
+            currency [1] = currencyFormatter.getCurrencyEnumValue("EUR");
         }
 
-        String [] banks = retrievedUser.getBanks();
+        if(retrievedUser.getUsdCurr()) {
+            currency  = new CurrencyEnum[1];
+            currency [0] = currencyFormatter.getCurrencyEnumValue("USD");
+        }
 
-        for (String bank: banks) {
-            if (bank.equals("Privat")) {
+        if(retrievedUser.getEurCurr()){
+            currency  = new CurrencyEnum[1];
+            currency [0] = currencyFormatter.getCurrencyEnumValue("EUR");
+        }
+        
+            if (retrievedUser.isPrivatBank()) {
 
                 info = info + GetCurrencyPrivatbank.GetExchangePrivatbank(currency, retrievedUser.getRounding());
 
-            } else if (bank.equals("Mono")) {
+            }
+
+            if (retrievedUser.isMonoBank()) {
 
                 info = info +  Monobank.getCurrencySell(currency, retrievedUser.getRounding());
 
-            } else if (bank.equals("NBU")){
+            }
+
+            if (retrievedUser.isNbuBank()){
                 info = info +  NBU.getCurrencyRate(currency, retrievedUser.getRounding()) ;
             }
-        }
 
         return info ;
     }

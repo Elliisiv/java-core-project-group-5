@@ -172,15 +172,6 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    @Override
-    public String getBotUsername() {
-        return username;
-    }
-
-    public String getBotToken() {
-        return token;
-    }
-
     private void start(long chatId) {
         LocalDateTime start = LocalDateTime.now();
 
@@ -220,6 +211,15 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
         startBut.start();
         startTimer.start();
+    }
+    
+        @Override
+    public String getBotUsername() {
+        return username;
+    }
+
+    public String getBotToken() {
+        return token;
     }
 
 }

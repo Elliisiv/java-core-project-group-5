@@ -75,9 +75,9 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void sendInfo(long chatId) throws IOException {
 //        String currencyInfo = "Курс валют: ";
-//        String currencyInfo = GetInfo.getInfo();
-//        SendMessage message = createMessage(chatId, currencyInfo);
-//        sendMessage(message);
+        String currencyInfo = GetInfo.getInfo(chatId);
+        SendMessage message = createMessage(chatId, currencyInfo);
+        sendMessage(message);
     }
 
     private void sendMainKeyboard(long chatId) {

@@ -1,6 +1,5 @@
 package com.telegramBot.User;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.FileReader;
@@ -14,8 +13,8 @@ import java.util.List;
 public class UserSettings {
     private final String settingsFile = "./files/userSettings.json";
 
-    public void createUserSettings(Update update, String[] banks, String[] currencies, int rounding, String time) {
-        long chatId = update.getMessage().getChatId();
+    public void updateUserSettings(long chatId, String[] banks, String[] currencies, int rounding, String time) {
+        //long chatId = update.getMessage().getChatId();
         try {
             List<User> users = getUsers();
             int index = getUserIndexByChatId(users, chatId);
@@ -31,8 +30,7 @@ public class UserSettings {
         }
     }
 
-    public User getUserSettingsByChatId(Update update) {
-        long chatId = update.getMessage().getChatId();
+    public User getUserSettingsByChatId(long chatId) {
         try {
             List<User> users = getUsers();
             for (User user : users) {
@@ -46,7 +44,7 @@ public class UserSettings {
         return null;
     }
 
-    //метод для запису налаштувань
+    //метод для запису налаштувань станлартних
     public void createDefaultSettings(long chatId) {
         String[] banks = {"Privat"};
         String[] currencies = {"USD"};

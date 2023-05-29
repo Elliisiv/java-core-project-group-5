@@ -205,8 +205,8 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                 }
             }, initialDelay, period, TimeUnit.MILLISECONDS);
 
-            // Зупиняємо виконання потока після 24 годин
-            executor.schedule(() -> future.cancel(true), period, TimeUnit.MILLISECONDS);
+            // Не зупиняємо виконання потока після 24 годин
+            executor.schedule(() -> future.cancel(false), period, TimeUnit.MILLISECONDS);
         });
 
         startBut.start();

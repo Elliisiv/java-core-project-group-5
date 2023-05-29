@@ -125,13 +125,13 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void handleBankSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть банк");
-        message.setReplyMarkup(BankSetting.getBank());
+        message.setReplyMarkup(BankSetting.getBank(chatId));
         sendMessage(message);
     }
 
     private void handleCurrenciesSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть валюти");
-        message.setReplyMarkup(CurrenciesSetting.getCurrencies());
+        message.setReplyMarkup(CurrenciesSetting.getCurrencies(chatId));
         sendMessage(message);
     }
 

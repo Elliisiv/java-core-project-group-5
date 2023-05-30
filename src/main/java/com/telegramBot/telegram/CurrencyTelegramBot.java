@@ -74,9 +74,11 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                     // Перевіряємо, чи натиснута кнопка банку
                     if (isBankButton(messageText)) {
                         buttonHandler.handleBankButton(messageText, chatId);
+                        handleBankSetting(chatId);
                     }
                     if (isCurrencyButton(messageText)) {
                         buttonHandler.handleCurrencyButton(messageText, chatId);
+                        handleCurrenciesSetting(chatId);
                     }
                     if (isRoundingButton(messageText)) {
                         buttonHandler.handleRoundingButton(messageText, chatId);

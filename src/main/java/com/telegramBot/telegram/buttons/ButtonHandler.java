@@ -10,37 +10,67 @@ public class ButtonHandler {
     public ButtonHandler() {
         this.userSettings = new UserSettings();
     }
-
-
     public void handleBankButton(String buttonText, long chatId) {
         User user = userSettings.getUserSettingsByChatId(chatId);
 
         String[] banks = user.getBanks();
-        String emoji_check_mark = EmojiParser.parseToUnicode(":white_check_mark:");
+        if (buttonText.equals("НБУ")) {
+            banks = addBank(banks, "NBU");
+        }
 
-        if (buttonText.equals("НБУ")) { //|| (buttonText.equals("НБУ" + emoji_check_mark))
-            if (isBankPresent(banks, "NBU")) {
-                banks = removeBank(banks, "NBU");
-            } else {
-                banks = addBank(banks, "NBU");
-            }
-        } else if (buttonText.equals("ПриватБанк")) {
-            if (isBankPresent(banks, "Privat")) {
-                banks = removeBank(banks,"Privat");
-            } else {
-                banks = addBank(banks, "Privat");
-            }
-        } else if (buttonText.equals("Монобанк")) {
-            if (isBankPresent(banks, "Mono")) {
-                banks = removeBank(banks,"Mono");
-            } else {
-                banks = addBank(banks, "Mono");
-            }
+        if (buttonText.equals("НБУ ✅"))  {
+            banks = removeBank(banks, "NBU");
+        }
+
+        if (buttonText.equals("ПриватБанк")) {
+            banks = addBank(banks, "Privat");
+        }
+
+        if (buttonText.equals("ПриватБанк ✅")) {
+            banks = removeBank(banks, "Privat");
+        }
+        if (buttonText.equals("Монобанк")) {
+            banks = addBank(banks, "Mono");
+        }
+
+        if (buttonText.equals("Монобанк ✅")) {
+            banks = removeBank(banks, "Mono");
         }
 
         user.setBanks(banks);
         userSettings.updateUserSettings(chatId, user.getBanks(), user.getCurrencies(), user.getRounding(), user.getTime());
     }
+
+
+//    public void handleBankButton(String buttonText, long chatId) {
+//        User user = userSettings.getUserSettingsByChatId(chatId);
+//
+//        String[] banks = user.getBanks();
+//        String emoji_check_mark = EmojiParser.parseToUnicode(":white_check_mark:");
+//
+//        if (buttonText.equals("НБУ")) { //|| (buttonText.equals("НБУ" + emoji_check_mark))
+//            if (isBankPresent(banks, "NBU")) {
+//                banks = removeBank(banks, "NBU");
+//            } else {
+//                banks = addBank(banks, "NBU");
+//            }
+//        } else if (buttonText.equals("ПриватБанк")) {
+//            if (isBankPresent(banks, "Privat")) {
+//                banks = removeBank(banks,"Privat");
+//            } else {
+//                banks = addBank(banks, "Privat");
+//            }
+//        } else if (buttonText.equals("Монобанк")) {
+//            if (isBankPresent(banks, "Mono")) {
+//                banks = removeBank(banks,"Mono");
+//            } else {
+//                banks = addBank(banks, "Mono");
+//            }
+//        }
+//
+//        user.setBanks(banks);
+//        userSettings.updateUserSettings(chatId, user.getBanks(), user.getCurrencies(), user.getRounding(), user.getTime());
+//    }
 
     private String[] addBank(String[] banks, String newBank) {
         String[] updatedBanks = new String[banks.length + 1];
@@ -61,36 +91,52 @@ public class ButtonHandler {
 
         return updatedBanks;
     }
-    private boolean isBankPresent(String[] banks, String bank) {
-        if (banks == null) {
-            return false;
-        }
-
-        for (String b : banks) {
-            if (b.equals(bank)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+//    private boolean isBankPresent(String[] banks, String bank) {
+//        if (banks == null) {
+//            return false;
+//        }
+//
+//        for (String b : banks) {
+//            if (b.equals(bank)) {
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
 
     public void handleCurrencyButton(String buttonText, long chatId) {
         User user = userSettings.getUserSettingsByChatId(chatId);
         String[] currencies = user.getCurrencies();
 
-        if (buttonText.contains("USD")) {
-            if (isCurrencyPresent(currencies, "USD")) {
+//         if (buttonText.contains("USD")) {
+//             if (isCurrencyPresent(currencies, "USD")) {
+//                 currencies = removeCurrency(currencies, "USD");
+//             } else {
+//                 currencies = addCurrency(currencies, "USD");
+//             }
+//         } else if (buttonText.contains("EUR")) {
+//             if (isCurrencyPresent(currencies, "EUR")) {
+//                 currencies = removeCurrency(currencies, "EUR");
+//             } else {
+//                 currencies = addCurrency(currencies, "EUR");
+//             }
+//         }
+        
+        if (buttonText.equals("USD")) {
+            currencies = addCurrency(currencies, "USD");
+        }
+
+        if (buttonText.equals("USD ✅"))  {
                 currencies = removeCurrency(currencies, "USD");
-            } else {
-                currencies = addCurrency(currencies, "USD");
-            }
-        } else if (buttonText.contains("EUR")) {
-            if (isCurrencyPresent(currencies, "EUR")) {
-                currencies = removeCurrency(currencies, "EUR");
-            } else {
+        }
+        
+        if (buttonText.equals("EUR")) {
                 currencies = addCurrency(currencies, "EUR");
-            }
+        }
+        
+        if (buttonText.equals("EUR ✅")) {
+            currencies = removeCurrency(currencies, "EUR");
         }
 
         user.setCurrencies(currencies);
@@ -118,19 +164,19 @@ public class ButtonHandler {
         return updatedCurrencies;
     }
 
-    private boolean isCurrencyPresent(String[] currencies, String currency) {
-        if (currencies == null) {
-            return false;
-        }
-
-        for (String c : currencies) {
-            if (c.equals(currency)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+//    private boolean isCurrencyPresent(String[] currencies, String currency) {
+//        if (currencies == null) {
+//            return false;
+//        }
+//
+//        for (String c : currencies) {
+//            if (c.equals(currency)) {
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
 
     public void handleRoundingButton(String buttonText, long chatId) {
         User user = userSettings.getUserSettingsByChatId(chatId);

@@ -25,21 +25,26 @@ public class CurrenciesSetting {
         ConditionCurrencyFormatter conditionCurrencyFormatter = new  ConditionCurrencyFormatter(chatId);
 
         KeyboardRow row1 = new KeyboardRow();
-        row1.add(new KeyboardButton("USD"));
-        row1.add(new KeyboardButton("EUR"));
+//         row1.add(new KeyboardButton("USD"));
+//         row1.add(new KeyboardButton("EUR"));
 
-//        if(!conditionCurrencyFormatter.isUsdCurr() && conditionCurrencyFormatter.isEurCurr()) {
-//            row1.add(new KeyboardButton("USD"));
-//            row1.add(new KeyboardButton("EUR ✅"));
-//        }
-//        if(conditionCurrencyFormatter.isUsdCurr() && !conditionCurrencyFormatter.isEurCurr()) {
-//            row1.add(new KeyboardButton("USD ✅"));
-//            row1.add(new KeyboardButton("EUR"));
-//        }
-//        if(conditionCurrencyFormatter.isUsdCurr() && conditionCurrencyFormatter.isEurCurr()) {
-//            row1.add(new KeyboardButton("USD ✅"));
-//            row1.add(new KeyboardButton("EUR ✅"));
-//        }
+        if(!conditionCurrencyFormatter.isUsdCurr() && conditionCurrencyFormatter.isEurCurr()) {
+            row1.add(new KeyboardButton("USD"));
+            row1.add(new KeyboardButton("EUR ✅"));
+        }
+        if(conditionCurrencyFormatter.isUsdCurr() && !conditionCurrencyFormatter.isEurCurr()) {
+            row1.add(new KeyboardButton("USD ✅"));
+            row1.add(new KeyboardButton("EUR"));
+        }
+        if(conditionCurrencyFormatter.isUsdCurr() && conditionCurrencyFormatter.isEurCurr()) {
+            row1.add(new KeyboardButton("USD ✅"));
+            row1.add(new KeyboardButton("EUR ✅"));
+        }
+
+        if(!conditionCurrencyFormatter.isUsdCurr() && !conditionCurrencyFormatter.isEurCurr()) {
+            row1.add(new KeyboardButton("USD"));
+            row1.add(new KeyboardButton("EUR"));
+        }
 
         KeyboardRow row2 = new KeyboardRow();
         row2.add(new KeyboardButton("Назад"));

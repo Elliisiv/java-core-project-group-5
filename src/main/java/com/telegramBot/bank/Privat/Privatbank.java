@@ -1,8 +1,6 @@
 package com.telegramBot.bank.Privat;
-import com.telegramBot.bank.BankEnum;
-import com.telegramBot.bank.BankEnumFormatter;
-import com.telegramBot.bank.CurrencyEnum;
-import com.telegramBot.bank.CurrencyEnumFormatter;
+import com.telegramBot.bank.BankService.CurrencyEnum;
+import com.telegramBot.bank.BankService.CurrencyEnumFormatter;
 
 import java.math.BigDecimal;
 

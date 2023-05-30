@@ -1,7 +1,7 @@
 package com.telegramBot.bank.Mono;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.telegramBot.bank.CurrencyEnum;
+import com.telegramBot.bank.BankService.CurrencyEnum;
 import org.jsoup.Jsoup;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -77,8 +77,8 @@ public class Monobank {
             String resultForSell = decimalFormat.format(sell);
             String resultForBuy = decimalFormat.format(buy);
 
-            resultMono = resultMono + "\n\nКурс в Монобанк:" + cur + "/UAH\nПокупка: " + resultForSell + "\nПродажа: " + resultForBuy;
-            //змінити строку виводу, купівля і продаж
+            resultMono = resultMono + "\n\nМонобанк:" + cur + "/UAH\nКупівля: " + resultForBuy + "\nПродаж: " + resultForSell;
+
 
         }
         return resultMono;

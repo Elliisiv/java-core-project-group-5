@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.telegramBot.bank.BankEnum;
-import com.telegramBot.bank.CurrencyEnum;
-import lombok.Value;
+import com.telegramBot.bank.BankService.CurrencyEnum;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -105,8 +103,8 @@ public class GetCurrencyPrivatbank {
                     String resultForSell = decimalFormat.format(sell);
                     String resultForBuy = decimalFormat.format(buy);
 
-                    resultPrivate = resultPrivate + "\n\nКурс в Приват банк: " + cur + "/UAH\nПокупка: " + resultForSell + "\nПродажа: " + resultForBuy;
-//змінити строку виводу
+                    resultPrivate = resultPrivate + "\n\nПриватБанк: " + cur + "/UAH\nКупівля: " +resultForBuy   + "\nПродаж: " + resultForSell;
+
 
             }
         } else {

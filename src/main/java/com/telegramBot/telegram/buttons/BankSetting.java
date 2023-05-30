@@ -1,9 +1,8 @@
 
 package com.telegramBot.telegram.buttons;
 
-import com.telegramBot.User.User;
-import com.telegramBot.User.UserSettings;
-import com.telegramBot.bank.ConditionBankFormatter;
+import com.telegramBot.bank.BankService.ConditionBankFormatter;
+import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -26,12 +25,12 @@ public class BankSetting {
         ConditionBankFormatter conditionBankFormatter = new ConditionBankFormatter(chatId);
 //        UserSettings userSettings = new UserSettings();
 //        User user = userSettings.getUserSettingsByChatId(chatId);
-
+        String emoji_check_mark = EmojiParser.parseToUnicode(":white_check_mark:");
         KeyboardRow row1 = new KeyboardRow();
         row1.add(new KeyboardButton("ПриватБанк"));
         row1.add(new KeyboardButton("Монобанк"));
         row1.add(new KeyboardButton("НБУ"));
-       // row1.add(new KeyboardButton("НБУ ✅"));
+    //    row1.add(new KeyboardButton("НБУ" + emoji_check_mark));
 
 //        if(!conditionBankFormatter.isPrivatBank()&&!conditionBankFormatter.isMonoBank()&&conditionBankFormatter.isNbuBank()) {
 //            row1.add(new KeyboardButton("ПриватБанк"));

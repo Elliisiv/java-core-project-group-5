@@ -1,6 +1,6 @@
 package com.telegramBot.bank.NBU;
 
-import com.telegramBot.bank.CurrencyEnum;
+import com.telegramBot.bank.BankService.CurrencyEnum;
 import lombok.Data;
 
 @Data

@@ -2,7 +2,7 @@ package com.telegramBot.bank.NBU;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.telegramBot.bank.CurrencyEnum;
+import com.telegramBot.bank.BankService.CurrencyEnum;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
@@ -51,7 +51,7 @@ public class NBU {
             String result = decimalFormat.format(rez);
 
 
-            resultNBU = resultNBU + "\n\nКурс в НБУ: " + cur + "/UAH\n" + result;
+            resultNBU = resultNBU + "\n\nНБУ: " + cur + "/UAH\nКурс: " + result;
             //написати шось
 
         }

@@ -2,6 +2,7 @@ package com.telegramBot.telegram.buttons;
 
 import com.telegramBot.User.User;
 import com.telegramBot.User.UserSettings;
+import com.vdurmont.emoji.EmojiParser;
 
 public class ButtonHandler {
     private UserSettings userSettings;
@@ -10,19 +11,14 @@ public class ButtonHandler {
         this.userSettings = new UserSettings();
     }
 
-    public static void main(String[] args) {
-        ButtonHandler buttonHandler = new ButtonHandler();
-        buttonHandler.handleBankButton("НБУ", 291225915);
-        buttonHandler.handleBankButton("ПриватБанк", 291225915);
-        buttonHandler.handleBankButton("Монобанк", 291225915);
 
-    }
     public void handleBankButton(String buttonText, long chatId) {
         User user = userSettings.getUserSettingsByChatId(chatId);
 
         String[] banks = user.getBanks();
+        String emoji_check_mark = EmojiParser.parseToUnicode(":white_check_mark:");
 
-        if (buttonText.equals("НБУ")) { //||(buttonText.equals("НБУ ✅"))
+        if (buttonText.equals("НБУ")) { //|| (buttonText.equals("НБУ" + emoji_check_mark))
             if (isBankPresent(banks, "NBU")) {
                 banks = removeBank(banks, "NBU");
             } else {
@@ -78,21 +74,63 @@ public class ButtonHandler {
 
         return false;
     }
+
     public void handleCurrencyButton(String buttonText, long chatId) {
         User user = userSettings.getUserSettingsByChatId(chatId);
+        String[] currencies = user.getCurrencies();
 
-        String[] currencies = null;
-
-        if (buttonText.equals("USD")) {
-            currencies = new String[]{"USD"};
-        } else if (buttonText.equals("EUR")) {
-            currencies = new String[]{"EUR"};
+        if (buttonText.contains("USD")) {
+            if (isCurrencyPresent(currencies, "USD")) {
+                currencies = removeCurrency(currencies, "USD");
+            } else {
+                currencies = addCurrency(currencies, "USD");
+            }
+        } else if (buttonText.contains("EUR")) {
+            if (isCurrencyPresent(currencies, "EUR")) {
+                currencies = removeCurrency(currencies, "EUR");
+            } else {
+                currencies = addCurrency(currencies, "EUR");
+            }
         }
 
-            user.setCurrencies(currencies);
-            userSettings.updateUserSettings(user);
+        user.setCurrencies(currencies);
+        userSettings.updateUserSettings(chatId, user.getBanks(), user.getCurrencies(), user.getRounding(), user.getTime());
+    }
+
+    private String[] addCurrency(String[] currencies, String newCurrency) {
+        String[] updatedCurrencies = new String[currencies.length + 1];
+        System.arraycopy(currencies, 0, updatedCurrencies, 0, currencies.length);
+        updatedCurrencies[currencies.length] = newCurrency;
+        return updatedCurrencies;
+    }
+
+    private String[] removeCurrency(String[] currencies, String currencyToRemove) {
+        String[] updatedCurrencies = new String[currencies.length - 1];
+        int index = 0;
+
+        for (String currency : currencies) {
+            if (!currency.equals(currencyToRemove)) {
+                updatedCurrencies[index] = currency;
+                index++;
+            }
         }
 
+        return updatedCurrencies;
+    }
+
+    private boolean isCurrencyPresent(String[] currencies, String currency) {
+        if (currencies == null) {
+            return false;
+        }
+
+        for (String c : currencies) {
+            if (c.equals(currency)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public void handleRoundingButton(String buttonText, long chatId) {
         User user = userSettings.getUserSettingsByChatId(chatId);

@@ -1,4 +1,4 @@
-package com.telegramBot.bank;
+package com.telegramBot.bank.BankService;
 
 public enum CurrencyEnum {
     GBP,

@@ -1,1 +1,1 @@
-[{"chatId":291225915,"banks":["Privat","NBU"],"currencies":["USD"],"rounding":2,"time":"10"},{"chatId":1303164702,"banks":["Privat"],"currencies":["EUR"],"rounding":3,"time":"10"}]
+[{"chatId":291225915,"banks":["Privat","NBU","Mono"],"currencies":["EUR"],"rounding":4,"time":"18"},{"chatId":1303164702,"banks":["NBU"],"currencies":["EUR"],"rounding":3,"time":"10"},{"chatId":1403268480,"banks":["Privat"],"currencies":["USD"],"rounding":2,"time":"18"}]

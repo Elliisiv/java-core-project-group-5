@@ -1,8 +1,6 @@
 package com.telegramBot.telegram.buttons;
 
-import com.telegramBot.User.User;
-import com.telegramBot.User.UserSettings;
-import com.telegramBot.bank.ConditionCurrencyFormatter;
+import com.telegramBot.bank.BankService.ConditionCurrencyFormatter;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -27,18 +25,21 @@ public class CurrenciesSetting {
         ConditionCurrencyFormatter conditionCurrencyFormatter = new  ConditionCurrencyFormatter(chatId);
 
         KeyboardRow row1 = new KeyboardRow();
-        if(!conditionCurrencyFormatter.isUsdCurr() && conditionCurrencyFormatter.isEurCurr()) {
-            row1.add(new KeyboardButton("USD"));
-            row1.add(new KeyboardButton("EUR ✅"));
-        }
-        if(conditionCurrencyFormatter.isUsdCurr() && !conditionCurrencyFormatter.isEurCurr()) {
-            row1.add(new KeyboardButton("USD ✅"));
-            row1.add(new KeyboardButton("EUR"));
-        }
-        if(conditionCurrencyFormatter.isUsdCurr() && conditionCurrencyFormatter.isEurCurr()) {
-            row1.add(new KeyboardButton("USD ✅"));
-            row1.add(new KeyboardButton("EUR ✅"));
-        }
+        row1.add(new KeyboardButton("USD"));
+        row1.add(new KeyboardButton("EUR"));
+
+//        if(!conditionCurrencyFormatter.isUsdCurr() && conditionCurrencyFormatter.isEurCurr()) {
+//            row1.add(new KeyboardButton("USD"));
+//            row1.add(new KeyboardButton("EUR ✅"));
+//        }
+//        if(conditionCurrencyFormatter.isUsdCurr() && !conditionCurrencyFormatter.isEurCurr()) {
+//            row1.add(new KeyboardButton("USD ✅"));
+//            row1.add(new KeyboardButton("EUR"));
+//        }
+//        if(conditionCurrencyFormatter.isUsdCurr() && conditionCurrencyFormatter.isEurCurr()) {
+//            row1.add(new KeyboardButton("USD ✅"));
+//            row1.add(new KeyboardButton("EUR ✅"));
+//        }
 
         KeyboardRow row2 = new KeyboardRow();
         row2.add(new KeyboardButton("Назад"));

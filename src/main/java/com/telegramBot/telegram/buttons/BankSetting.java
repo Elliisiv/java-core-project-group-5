@@ -25,12 +25,13 @@ public class BankSetting {
         ConditionBankFormatter conditionBankFormatter = new ConditionBankFormatter(chatId);
 //        UserSettings userSettings = new UserSettings();
 //        User user = userSettings.getUserSettingsByChatId(chatId);
-        String emoji_check_mark = EmojiParser.parseToUnicode(":white_check_mark:");
+
         KeyboardRow row1 = new KeyboardRow();
 //        row1.add(new KeyboardButton("ПриватБанк"));
 //        row1.add(new KeyboardButton("Монобанк"));
 //        row1.add(new KeyboardButton("НБУ"));
     //    row1.add(new KeyboardButton("НБУ" + emoji_check_mark));
+
 
         if(!conditionBankFormatter.isPrivatBank()&&!conditionBankFormatter.isMonoBank()&&conditionBankFormatter.isNbuBank()) {
             row1.add(new KeyboardButton("ПриватБанк"));
@@ -67,7 +68,8 @@ public class BankSetting {
             row1.add(new KeyboardButton("Монобанк ✅"));
             row1.add(new KeyboardButton("НБУ ✅"));
         }
-        if(conditionBankFormatter.isPrivatBank()&&conditionBankFormatter.isMonoBank()&&conditionBankFormatter.isNbuBank()) {
+
+        if(!conditionBankFormatter.isPrivatBank() && !conditionBankFormatter.isMonoBank()&&!conditionBankFormatter.isNbuBank()) {
             row1.add(new KeyboardButton("ПриватБанк"));
             row1.add(new KeyboardButton("Монобанк"));
             row1.add(new KeyboardButton("НБУ"));

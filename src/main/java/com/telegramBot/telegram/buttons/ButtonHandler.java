@@ -41,37 +41,6 @@ public class ButtonHandler {
         userSettings.updateUserSettings(chatId, user.getBanks(), user.getCurrencies(), user.getRounding(), user.getTime());
     }
 
-
-//    public void handleBankButton(String buttonText, long chatId) {
-//        User user = userSettings.getUserSettingsByChatId(chatId);
-//
-//        String[] banks = user.getBanks();
-//        String emoji_check_mark = EmojiParser.parseToUnicode(":white_check_mark:");
-//
-//        if (buttonText.equals("НБУ")) { //|| (buttonText.equals("НБУ" + emoji_check_mark))
-//            if (isBankPresent(banks, "NBU")) {
-//                banks = removeBank(banks, "NBU");
-//            } else {
-//                banks = addBank(banks, "NBU");
-//            }
-//        } else if (buttonText.equals("ПриватБанк")) {
-//            if (isBankPresent(banks, "Privat")) {
-//                banks = removeBank(banks,"Privat");
-//            } else {
-//                banks = addBank(banks, "Privat");
-//            }
-//        } else if (buttonText.equals("Монобанк")) {
-//            if (isBankPresent(banks, "Mono")) {
-//                banks = removeBank(banks,"Mono");
-//            } else {
-//                banks = addBank(banks, "Mono");
-//            }
-//        }
-//
-//        user.setBanks(banks);
-//        userSettings.updateUserSettings(chatId, user.getBanks(), user.getCurrencies(), user.getRounding(), user.getTime());
-//    }
-
     private String[] addBank(String[] banks, String newBank) {
         String[] updatedBanks = new String[banks.length + 1];
         System.arraycopy(banks, 0, updatedBanks, 0, banks.length);
@@ -128,11 +97,11 @@ public class ButtonHandler {
         }
 
         if (buttonText.equals("USD ✅"))  {
-                currencies = removeCurrency(currencies, "USD");
+            currencies = removeCurrency(currencies, "USD");
         }
         
         if (buttonText.equals("EUR")) {
-                currencies = addCurrency(currencies, "EUR");
+            currencies = addCurrency(currencies, "EUR");
         }
         
         if (buttonText.equals("EUR ✅")) {

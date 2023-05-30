@@ -108,7 +108,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         User retrievedUser = userSettings.getUserSettingsByChatId(chatId);
         int timeInt = Integer.parseInt(retrievedUser.getTime());
 
-        LocalTime targetTime = LocalTime.of(timeInt, 42); // Задайте бажаний час
+        LocalTime targetTime = LocalTime.of(timeInt, 00); // Задайте бажаний час
 
         long initialDelay = ChronoUnit.MILLIS.between(currentTime, targetTime);
         if (initialDelay < 0) {
@@ -131,7 +131,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         return buttonText.equals("НБУ") || buttonText.equals("ПриватБанк") || buttonText.equals("Монобанк")
                 ||buttonText.equals("НБУ ✅") || buttonText.equals("ПриватБанк ✅") || buttonText.equals("Монобанк ✅");
     }
-private boolean isCurrencyButton(String buttonText) {
+    private boolean isCurrencyButton(String buttonText) {
         return buttonText.equals("USD") || buttonText.equals("EUR")
                 || buttonText.equals("USD ✅") || buttonText.equals("EUR ✅");
     }

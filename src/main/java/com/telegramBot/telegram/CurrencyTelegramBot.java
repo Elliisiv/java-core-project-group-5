@@ -69,7 +69,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                     }
                     sendMainKeyboard(chatId);
                 }
-                case "Відхилити" -> sendMainKeyboard(chatId);
+                case "Відхилити" -> Deselect(chatId);
                 default -> {
                     // Перевіряємо, чи натиснута кнопка банку
                     if (isBankButton(messageText)) {
@@ -160,11 +160,26 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         sendMessage(message);
     }
 
+    // + Ira.Y
     private void sendMainKeyboard(long chatId) {
-        SendMessage message = createMessage(chatId, "Головне меню");
+        ReplyKeyboardMarkup keyboardMarkup = MainKeyboard.getMainKeyboard();
+
+        SendMessage message = new SendMessage();
+        message.setChatId(String.valueOf(chatId));
+        message.setReplyMarkup(keyboardMarkup);
+
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+    private void Deselect(long chatId) {
+        SendMessage message = createMessage(chatId, "Оберіть дію");
         message.setReplyMarkup(MainKeyboard.getMainKeyboard());
         sendMessage(message);
     }
+    // - 
 
     private void sendSettingsKeyboard(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть налаштування");

@@ -13,18 +13,37 @@ public class ButtonHandler {
     public void handleBankButton(String buttonText, long chatId) {
         User user = userSettings.getUserSettingsByChatId(chatId);
 
-        String[] banks = null;
+        String[] banks = user.getBanks();
 
         if (buttonText.equals("НБУ")) {
-            banks = new String[]{"NBU"};
+            if (banks == null) {
+                banks = new String[]{"NBU"};
+            } else {
+                banks = addBank(banks, "NBU");
+            }
         } else if (buttonText.equals("ПриватБанк")) {
-            banks = new String[]{"Privat"};
+            if (banks == null) {
+                banks = new String[]{"Privat"};
+            } else {
+                banks = addBank(banks, "Privat");
+            }
         } else if (buttonText.equals("Монобанк")) {
-            banks = new String[]{"Mono"};
+            if (banks == null) {
+                banks = new String[]{"Mono"};
+            } else {
+                banks = addBank(banks, "Mono");
+            }
         }
 
         user.setBanks(banks);
-        userSettings.updateUserSettings(user);
+        userSettings.updateUserSettings(chatId, user.getBanks(), user.getCurrencies(), user.getRounding(), user.getTime());
+    }
+
+    private String[] addBank(String[] banks, String newBank) {
+        String[] updatedBanks = new String[banks.length + 1];
+        System.arraycopy(banks, 0, updatedBanks, 0, banks.length);
+        updatedBanks[banks.length] = newBank;
+        return updatedBanks;
     }
 
     public void handleCurrencyButton(String buttonText, long chatId) {

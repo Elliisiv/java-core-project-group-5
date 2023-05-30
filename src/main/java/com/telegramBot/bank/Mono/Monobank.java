@@ -40,6 +40,10 @@ public class Monobank {
         List<CurrencyRateMonoResponceDTO> items = new Gson().fromJson(json, type);
 
         List<CurrencyRateMonoResponceDTO> filteredObjects = new ArrayList<>();
+        
+        // + Ira.Y
+        resultMono = ""; // Очищення resultMono перед початком нової ітерації
+        // - Ira.Y
 
         for (CurrencyEnum cur : currency) {
 

@@ -128,7 +128,8 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     }
 
     private boolean isBankButton(String buttonText) {
-        return buttonText.equals("НБУ") || buttonText.equals("ПриватБанк") || buttonText.equals("Монобанк");
+        return buttonText.equals("НБУ") || buttonText.equals("ПриватБанк") || buttonText.equals("Монобанк")
+                ||buttonText.equals("НБУ ✅") || buttonText.equals("ПриватБанк ✅") || buttonText.equals("Монобанк ✅");
     }
 private boolean isCurrencyButton(String buttonText) {
         return buttonText.equals("USD") || buttonText.equals("EUR")

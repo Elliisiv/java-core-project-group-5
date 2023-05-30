@@ -15,13 +15,12 @@ public class Monobank {
     public static String urlMono = "https://api.monobank.ua/bank/currency";
     public static int desiredCode;// Для перетворення валюти в код цієї валюти
     public static String desimalCode;//Формат округлення
-    public static String resultMono="";//Остаточний результат
     public  static BigDecimal buy;//Покупка валюти
     public static BigDecimal sell;//Продаж валюти
 
 
     public static String getCurrencySell(CurrencyEnum [] currency, int number) {
-
+        String resultMono="";//Остаточний результат
         String json = null;
         try {
             json = Jsoup.connect(urlMono)
@@ -40,6 +39,10 @@ public class Monobank {
         List<CurrencyRateMonoResponceDTO> items = new Gson().fromJson(json, type);
 
         List<CurrencyRateMonoResponceDTO> filteredObjects = new ArrayList<>();
+        
+        // + Ira.Y
+        resultMono = ""; // Очищення resultMono перед початком нової ітерації
+        // - Ira.Y
 
         for (CurrencyEnum cur : currency) {
 

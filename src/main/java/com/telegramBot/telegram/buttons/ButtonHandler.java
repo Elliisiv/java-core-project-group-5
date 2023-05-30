@@ -79,18 +79,34 @@ public class ButtonHandler {
         User user = userSettings.getUserSettingsByChatId(chatId);
         String[] currencies = user.getCurrencies();
 
-        if (buttonText.contains("USD")) {
-            if (isCurrencyPresent(currencies, "USD")) {
+//         if (buttonText.contains("USD")) {
+//             if (isCurrencyPresent(currencies, "USD")) {
+//                 currencies = removeCurrency(currencies, "USD");
+//             } else {
+//                 currencies = addCurrency(currencies, "USD");
+//             }
+//         } else if (buttonText.contains("EUR")) {
+//             if (isCurrencyPresent(currencies, "EUR")) {
+//                 currencies = removeCurrency(currencies, "EUR");
+//             } else {
+//                 currencies = addCurrency(currencies, "EUR");
+//             }
+//         }
+        
+        if (buttonText.equals("USD")) {
+            currencies = addCurrency(currencies, "USD");
+        }
+
+        if (buttonText.equals("USD ✅"))  {
                 currencies = removeCurrency(currencies, "USD");
-            } else {
-                currencies = addCurrency(currencies, "USD");
-            }
-        } else if (buttonText.contains("EUR")) {
-            if (isCurrencyPresent(currencies, "EUR")) {
-                currencies = removeCurrency(currencies, "EUR");
-            } else {
+        }
+        
+        if (buttonText.equals("EUR")) {
                 currencies = addCurrency(currencies, "EUR");
-            }
+        }
+        
+        if (buttonText.equals("EUR ✅")) {
+            currencies = removeCurrency(currencies, "EUR");
         }
 
         user.setCurrencies(currencies);

@@ -2,7 +2,6 @@ package com.telegramBot.telegram;
 
 import com.telegramBot.User.User;
 import com.telegramBot.User.UserSettings;
-import com.telegramBot.bank.Timer;
 import com.telegramBot.telegram.buttons.*;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -11,23 +10,22 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.time.temporal.ChronoUnit;
 
 public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private final String username;
     private final String token;
     private ButtonHandler buttonHandler;
+    
+    private ScheduledExecutorService executor;
 
     public CurrencyTelegramBot(String username, String token) {
         this.username = username;
@@ -43,10 +41,8 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
             switch (messageText) {
                 case "/start" -> {
-                    sendWelcomeMessage(chatId);
-                    start(chatId);
-//                    sendWelcomeMessage(chatId);
-//                    sendMainKeyboard(chatId);
+                    startBut(chatId);
+                    startTimer(chatId);
                 }
                 case "Отримати інфо" -> {
                     try {
@@ -59,8 +55,15 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                 case "Кількість знаків після коми" -> handleDecimalPlacesSetting(chatId);
                 case "Банк" -> handleBankSetting(chatId);
                 case "Валюти" -> handleCurrenciesSetting(chatId);
-                case "Час сповіщень" -> handleNotificationTimeSetting(chatId);
-                case "Назад" -> sendSettingsKeyboard(chatId);
+                case "Час сповіщень" -> {
+                    handleNotificationTimeSetting(chatId);
+                }
+                case "Назад" -> {
+                    sendSettingsKeyboard(chatId);
+
+                    stopTimer();
+                    startTimer(chatId);
+                }
                 case "Прийняти" -> {
                     try {
                         sendInfo(chatId);
@@ -89,8 +92,43 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         }
     }
 
+    private void startBut(long chatId){
+        sendWelcomeMessage(chatId);
+        sendMainKeyboard(chatId);
+    }
 
-   
+    private void stopTimer() {
+        if (executor != null && !executor.isShutdown()) {
+            executor.shutdown();
+        }
+    }
+
+    private void startTimer(long chatId) {
+        executor = Executors.newSingleThreadScheduledExecutor();
+        LocalTime currentTime = LocalTime.now();
+
+        UserSettings userSettings = new UserSettings();
+        User retrievedUser = userSettings.getUserSettingsByChatId(chatId);
+        int timeInt = Integer.parseInt(retrievedUser.getTime());
+
+        LocalTime targetTime = LocalTime.of(timeInt, 00); // Задайте бажаний час
+
+        long initialDelay = ChronoUnit.MILLIS.between(currentTime, targetTime);
+        if (initialDelay < 0) {
+            // Якщо поточний час вже пройшов бажаний час, додаємо 1 день до initialDelay
+            initialDelay += TimeUnit.DAYS.toMillis(1);
+        }
+
+        long period = TimeUnit.DAYS.toMillis(1);
+
+        executor.scheduleAtFixedRate(() -> {
+            try {
+                sendInfo(chatId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }, initialDelay, period, TimeUnit.MILLISECONDS);
+    }
 
     private boolean isBankButton(String buttonText) {
         return buttonText.equals("НБУ") || buttonText.equals("ПриватБанк") || buttonText.equals("Монобанк");
@@ -172,48 +210,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    private void start(long chatId) {
-        LocalDateTime start = LocalDateTime.now();
-
-        Thread startBut = new Thread(() -> {
-            sendMainKeyboard(chatId);
-        });
-
-        Thread startTimer = new Thread(() -> {
-            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-            LocalTime currentTime = LocalTime.now();
-
-            UserSettings userSettings = new UserSettings();
-            User retrievedUser = userSettings.getUserSettingsByChatId(chatId);
-            int timeInt = Integer.parseInt(retrievedUser.getTime());
-
-            LocalTime targetTime = LocalTime.of(timeInt, 06); // Задайте бажаний час
-
-            long initialDelay = ChronoUnit.MILLIS.between(currentTime, targetTime);
-            if (initialDelay < 0) {
-                // Якщо поточний час вже пройшов бажаний час, додаємо 1 день до initialDelay
-                initialDelay += TimeUnit.DAYS.toMillis(1);
-            }
-
-            long period = TimeUnit.DAYS.toMillis(1);
-
-            ScheduledFuture<?> future = executor.scheduleAtFixedRate(() -> {
-                try {
-                    sendInfo(chatId);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }, initialDelay, period, TimeUnit.MILLISECONDS);
-
-            // Не зупиняємо виконання потока після 24 годин
-            executor.schedule(() -> future.cancel(false), period, TimeUnit.MILLISECONDS);
-        });
-
-        startBut.start();
-        startTimer.start();
-    }
-    
-        @Override
+    @Override
     public String getBotUsername() {
         return username;
     }
@@ -221,5 +218,4 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     public String getBotToken() {
         return token;
     }
-
 }

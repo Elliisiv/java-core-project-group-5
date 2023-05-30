@@ -2,10 +2,12 @@ package com.telegramBot.telegram.buttons;
 
 import com.telegramBot.User.User;
 import com.telegramBot.User.UserSettings;
+
 import com.telegramBot.bank.BankService.BankEnum;
 import com.telegramBot.bank.BankService.BankEnumFormatter;
 import com.telegramBot.bank.BankService.CurrencyEnum;
 import com.telegramBot.bank.BankService.CurrencyEnumFormatter;
+
 import com.telegramBot.bank.Mono.Monobank;
 import com.telegramBot.bank.NBU.NBU;
 import com.telegramBot.bank.Privat.GetCurrencyPrivatbank;

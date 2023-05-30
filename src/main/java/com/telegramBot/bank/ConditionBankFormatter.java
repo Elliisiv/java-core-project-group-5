@@ -24,9 +24,16 @@ public class ConditionBankFormatter {
             if (bank.equals("Privat")){
                 this.privatBank = true;
             }
-            if (bank.equals("monoBank")){
-                this.privatBank = true;
+//             if (bank.equals("monoBank")){
+//                 this.privatBank = true;
+//             }
+            
+            // + Ira.Y
+            if (bank.equals("Mono")){
+                this.monoBank = true;
             }
+            // - Ira.Y
+            
             if (bank.equals("NBU")){
                 this.nbuBank = true;
             }

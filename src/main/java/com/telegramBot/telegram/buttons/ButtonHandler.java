@@ -10,26 +10,33 @@ public class ButtonHandler {
         this.userSettings = new UserSettings();
     }
 
+    public static void main(String[] args) {
+        ButtonHandler buttonHandler = new ButtonHandler();
+        buttonHandler.handleBankButton("НБУ", 291225915);
+        buttonHandler.handleBankButton("ПриватБанк", 291225915);
+        buttonHandler.handleBankButton("Монобанк", 291225915);
+
+    }
     public void handleBankButton(String buttonText, long chatId) {
         User user = userSettings.getUserSettingsByChatId(chatId);
 
         String[] banks = user.getBanks();
 
-        if (buttonText.equals("НБУ")) {
-            if (banks == null) {
-                banks = new String[]{"NBU"};
+        if (buttonText.equals("НБУ")) { //||(buttonText.equals("НБУ ✅"))
+            if (isBankPresent(banks, "NBU")) {
+                banks = removeBank(banks, "NBU");
             } else {
                 banks = addBank(banks, "NBU");
             }
         } else if (buttonText.equals("ПриватБанк")) {
-            if (banks == null) {
-                banks = new String[]{"Privat"};
+            if (isBankPresent(banks, "Privat")) {
+                banks = removeBank(banks,"Privat");
             } else {
                 banks = addBank(banks, "Privat");
             }
         } else if (buttonText.equals("Монобанк")) {
-            if (banks == null) {
-                banks = new String[]{"Mono"};
+            if (isBankPresent(banks, "Mono")) {
+                banks = removeBank(banks,"Mono");
             } else {
                 banks = addBank(banks, "Mono");
             }
@@ -45,7 +52,32 @@ public class ButtonHandler {
         updatedBanks[banks.length] = newBank;
         return updatedBanks;
     }
+    private String[] removeBank(String[] banks, String bankToRemove) {
+        String[] updatedBanks = new String[banks.length - 1];
+        int index = 0;
 
+        for (String bank : banks) {
+            if (!bank.equals(bankToRemove)) {
+                updatedBanks[index] = bank;
+                index++;
+            }
+        }
+
+        return updatedBanks;
+    }
+    private boolean isBankPresent(String[] banks, String bank) {
+        if (banks == null) {
+            return false;
+        }
+
+        for (String b : banks) {
+            if (b.equals(bank)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
     public void handleCurrencyButton(String buttonText, long chatId) {
         User user = userSettings.getUserSettingsByChatId(chatId);
 

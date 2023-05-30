@@ -28,41 +28,46 @@ public class BankSetting {
 //        User user = userSettings.getUserSettingsByChatId(chatId);
 
         KeyboardRow row1 = new KeyboardRow();
-        if(!conditionBankFormatter.isPrivatBank()&&!conditionBankFormatter.isMonoBank()&&conditionBankFormatter.isNbuBank()) {
-            row1.add(new KeyboardButton("ПриватБанк"));
-            row1.add(new KeyboardButton("Монобанк"));
-            row1.add(new KeyboardButton("НБУ ✅"));
-        }
-        if(!conditionBankFormatter.isPrivatBank()&&conditionBankFormatter.isMonoBank()&&!conditionBankFormatter.isNbuBank()) {
-            row1.add(new KeyboardButton("ПриватБанк"));
-            row1.add(new KeyboardButton("Монобанк ✅"));
-            row1.add(new KeyboardButton("НБУ"));
-        }
-        if(!conditionBankFormatter.isPrivatBank()&&conditionBankFormatter.isMonoBank()&&conditionBankFormatter.isNbuBank()) {
-            row1.add(new KeyboardButton("ПриватБанк"));
-            row1.add(new KeyboardButton("Монобанк ✅"));
-            row1.add(new KeyboardButton("НБУ ✅"));
-        }
-        if(conditionBankFormatter.isPrivatBank()&&!conditionBankFormatter.isMonoBank()&&!conditionBankFormatter.isNbuBank()) {
-            row1.add(new KeyboardButton("ПриватБанк ✅"));
-            row1.add(new KeyboardButton("Монобанк"));
-            row1.add(new KeyboardButton("НБУ"));
-        }
-        if(conditionBankFormatter.isPrivatBank()&&!conditionBankFormatter.isMonoBank()&&conditionBankFormatter.isNbuBank()) {
-            row1.add(new KeyboardButton("ПриватБанк ✅"));
-            row1.add(new KeyboardButton("Монобанк"));
-            row1.add(new KeyboardButton("НБУ ✅"));
-        }
-        if(conditionBankFormatter.isPrivatBank()&&conditionBankFormatter.isMonoBank()&&!conditionBankFormatter.isNbuBank()) {
-            row1.add(new KeyboardButton("ПриватБанк ✅"));
-            row1.add(new KeyboardButton("Монобанк ✅"));
-            row1.add(new KeyboardButton("НБУ"));
-        }
-        if(conditionBankFormatter.isPrivatBank()&&conditionBankFormatter.isMonoBank()&&conditionBankFormatter.isNbuBank()) {
-            row1.add(new KeyboardButton("ПриватБанк ✅"));
-            row1.add(new KeyboardButton("Монобанк ✅"));
-            row1.add(new KeyboardButton("НБУ ✅"));
-        }
+        row1.add(new KeyboardButton("ПриватБанк"));
+        row1.add(new KeyboardButton("Монобанк"));
+        row1.add(new KeyboardButton("НБУ"));
+       // row1.add(new KeyboardButton("НБУ ✅"));
+
+//        if(!conditionBankFormatter.isPrivatBank()&&!conditionBankFormatter.isMonoBank()&&conditionBankFormatter.isNbuBank()) {
+//            row1.add(new KeyboardButton("ПриватБанк"));
+//            row1.add(new KeyboardButton("Монобанк"));
+//            row1.add(new KeyboardButton("НБУ ✅"));
+//        }
+//        if(!conditionBankFormatter.isPrivatBank()&&conditionBankFormatter.isMonoBank()&&!conditionBankFormatter.isNbuBank()) {
+//            row1.add(new KeyboardButton("ПриватБанк"));
+//            row1.add(new KeyboardButton("Монобанк ✅"));
+//            row1.add(new KeyboardButton("НБУ"));
+//        }
+//        if(!conditionBankFormatter.isPrivatBank()&&conditionBankFormatter.isMonoBank()&&conditionBankFormatter.isNbuBank()) {
+//            row1.add(new KeyboardButton("ПриватБанк"));
+//            row1.add(new KeyboardButton("Монобанк ✅"));
+//            row1.add(new KeyboardButton("НБУ ✅"));
+//        }
+//        if(conditionBankFormatter.isPrivatBank()&&!conditionBankFormatter.isMonoBank()&&!conditionBankFormatter.isNbuBank()) {
+//            row1.add(new KeyboardButton("ПриватБанк ✅"));
+//            row1.add(new KeyboardButton("Монобанк"));
+//            row1.add(new KeyboardButton("НБУ"));
+//        }
+//        if(conditionBankFormatter.isPrivatBank()&&!conditionBankFormatter.isMonoBank()&&conditionBankFormatter.isNbuBank()) {
+//            row1.add(new KeyboardButton("ПриватБанк ✅"));
+//            row1.add(new KeyboardButton("Монобанк"));
+//            row1.add(new KeyboardButton("НБУ ✅"));
+//        }
+//        if(conditionBankFormatter.isPrivatBank()&&conditionBankFormatter.isMonoBank()&&!conditionBankFormatter.isNbuBank()) {
+//            row1.add(new KeyboardButton("ПриватБанк ✅"));
+//            row1.add(new KeyboardButton("Монобанк ✅"));
+//            row1.add(new KeyboardButton("НБУ"));
+//        }
+//        if(conditionBankFormatter.isPrivatBank()&&conditionBankFormatter.isMonoBank()&&conditionBankFormatter.isNbuBank()) {
+//            row1.add(new KeyboardButton("ПриватБанк ✅"));
+//            row1.add(new KeyboardButton("Монобанк ✅"));
+//            row1.add(new KeyboardButton("НБУ ✅"));
+//        }
 
         KeyboardRow row2 = new KeyboardRow();
         row2.add(new KeyboardButton("Назад"));

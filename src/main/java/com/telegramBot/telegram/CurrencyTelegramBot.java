@@ -84,9 +84,11 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                     }
                     if (isRoundingButton(messageText)) {
                         buttonHandler.handleRoundingButton(messageText, chatId);
+                        handleDecimalPlacesSetting(chatId);
                     }
                     if (isTimeButton(messageText)) {
                         buttonHandler.handleTimeButton(messageText, chatId);
+                        handleNotificationTimeSetting(chatId);
                     }
                 }
             }
@@ -209,7 +211,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void handleNotificationTimeSetting(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть час сповіщень");
-        message.setReplyMarkup(NotificationTimeSetting.getNotificationTime());
+        message.setReplyMarkup(NotificationTimeSetting.getNotificationTime(chatId));
         sendMessage(message);
     }
 

@@ -160,7 +160,7 @@ public class NotificationTimeSetting {
             row4.add(new KeyboardButton("18 ✅"));
             row4.add(new KeyboardButton("Вимкнути повідомлення"));
         }
-        if(user.getTime().equals("Вимкнути повідомлення")) {
+        if(user.getTime().equals("")) {
             row1.add(new KeyboardButton("9"));
             row1.add(new KeyboardButton("10"));
             row1.add(new KeyboardButton("11"));

@@ -150,6 +150,9 @@ public class ButtonHandler {
         }else if (buttonText.equals("18")) {
             time = "18";
         }
+        else if (buttonText.equals("Вимкнути повідомлення")) {
+            time = "";
+        }
         user.setTime(time);
         userSettings.updateUserSettings(user);
     }

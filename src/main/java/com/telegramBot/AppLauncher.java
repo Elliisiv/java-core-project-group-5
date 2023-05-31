@@ -38,6 +38,6 @@ public class AppLauncher  {
             } catch (TelegramApiException e) {
                 System.out.println("An error occurred while launching the bot: " + e.getMessage());
                 e.printStackTrace();
-            }
+        }
   }
 }

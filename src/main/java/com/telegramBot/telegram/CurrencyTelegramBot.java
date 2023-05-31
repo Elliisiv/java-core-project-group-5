@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -50,8 +51,20 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                 }
                 case "Налаштування" -> sendSettingsKeyboard(chatId);
                 case "Кількість знаків після коми" -> handleDecimalPlacesSetting(chatId);
-                case "Банк" -> handleBankSetting(chatId);
-                case "Валюти" -> handleCurrenciesSetting(chatId);
+                case "Банк" -> {
+                    try {
+                        handleBankSetting(chatId);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                case "Валюти" -> {
+                    try {
+                        handleCurrenciesSetting(chatId);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 case "Час сповіщень" -> {
                     handleNotificationTimeSetting(chatId);
                 }
@@ -67,11 +80,19 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                     // Перевіряємо, чи натиснута кнопка банку
                     if (isBankButton(messageText)) {
                         buttonHandler.handleBankButton(messageText, chatId);
-                        handleBankSetting(chatId);
+                        try {
+                            handleBankSetting(chatId);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     if (isCurrencyButton(messageText)) {
                         buttonHandler.handleCurrencyButton(messageText, chatId);
-                        handleCurrenciesSetting(chatId);
+                        try {
+                            handleCurrenciesSetting(chatId);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     if (isRoundingButton(messageText)) {
                         buttonHandler.handleRoundingButton(messageText, chatId);
@@ -138,7 +159,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         return buttonText.equals("9")||buttonText.equals("10") || buttonText.equals("11")||
         buttonText.equals("12") || buttonText.equals("13")|| buttonText.equals("14")||
         buttonText.equals("15")|| buttonText.equals("16")|| buttonText.equals("17")||
-        buttonText.equals("18");
+        buttonText.equals("18") || buttonText.equals("Вимкнути повідомлення");
     }
     private void sendWelcomeMessage(long chatId) {
         String welcomeMessage = "Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют";
@@ -175,16 +196,28 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         sendMessage(message);
     }
 
-    private void handleBankSetting(long chatId) {
-        SendMessage message = createMessage(chatId, "Оберіть банк");
+    private void handleBankSetting(long chatId) throws IOException {
+        SendMessage message = createMessage(chatId, sendUserSet(chatId));
         message.setReplyMarkup(BankSetting.getBank(chatId));
         sendMessage(message);
     }
 
-    private void handleCurrenciesSetting(long chatId) {
-        SendMessage message = createMessage(chatId, "Оберіть валюти");
+    private void handleCurrenciesSetting(long chatId) throws IOException {
+        SendMessage message = createMessage(chatId, sendUserSet(chatId));
         message.setReplyMarkup(CurrenciesSetting.getCurrencies(chatId));
         sendMessage(message);
+    }
+    private String sendUserSet(long chatId) throws IOException {
+        String result = "";
+        UserSettings userSettings = new UserSettings();
+        User retrievedUser = userSettings.getUserSettingsByChatId(chatId);
+        String userSetInfo =
+                "Ваші налаштування"+
+                        "\nБанки: " + Arrays.toString(retrievedUser.getBanks()).replace("[", "") .replace("]", "")+
+                        "\nВалюти: " + Arrays.toString(retrievedUser.getCurrencies()).replace("[", "") .replace("]", "") +
+                        "\nОкруглення: " + retrievedUser.getRounding() +
+                        "\nЧас сповіщень: " + retrievedUser.getTime();
+        return userSetInfo;
     }
 
     private void handleNotificationTimeSetting(long chatId) {

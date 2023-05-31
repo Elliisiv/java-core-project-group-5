@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 public class Monobank {
     public static String urlMono = "https://api.monobank.ua/bank/currency";
-    public static int desiredCode;// Для перетворення валюти в код цієї валюти
-    public static String desimalCode;//Формат округлення
-    public static String resultMono = "";//Остаточний результат
-    public static BigDecimal buy;//Покупка валюти
-    public static BigDecimal sell;//Продаж валюти
+    public static int desiredCode;
+    public static String desimalCode;
+    public static String resultMono = "";
+    public static BigDecimal buy;
+    public static BigDecimal sell;
     private static final String settingsFile = "./files/temporaryMono.json";
 
     public static String getCurrencySell(CurrencyEnum[] currency, int number) {
@@ -38,9 +38,9 @@ public class Monobank {
                 .getType();
         List<CurrencyRateMonoResponceDTO> items = new Gson().fromJson(json, type);
         List<CurrencyRateMonoResponceDTO> filteredObjects = new ArrayList<>();
-        // + Ira.Y
-        resultMono = ""; // Очищення resultMono перед початком нової ітерації
-        // - Ira.Y
+
+        resultMono = "";
+
         for (CurrencyEnum cur : currency) {
             switch (cur) {
                 case USD -> desiredCode = 840;
@@ -52,12 +52,12 @@ public class Monobank {
                     filteredObjects.add(it);
                 }
             }
-            //Выводим найденные объекты
+
             for (CurrencyRateMonoResponceDTO it : filteredObjects) {
                 buy = it.getRateBuy();
                 sell = it.getRateSell();
             }
-            //Знаки после запятой;
+
             switch (number) {
                 case 2 -> desimalCode = "#.##";
                 case 3 -> desimalCode = "#.###";

@@ -10,14 +10,12 @@ public class NBUdto {
     private double rate;
     private CurrencyEnum cc;
     private String exchangedate;
-    
-    ///////////////////////////////////////////////
-    // Ira.Y.
+
     public CurrencyEnum getCc() {
         return cc;
     }
     public double getRate() {
         return rate;
     }
-    ///////////////////////////////////////////////
+
 }

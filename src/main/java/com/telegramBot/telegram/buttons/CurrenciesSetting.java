@@ -20,13 +20,9 @@ public class CurrenciesSetting {
 
     private static List<KeyboardRow> getCurrenciesButtons(long chatId) {
 
-//        UserSettings userSettings = new UserSettings();
-//        User user = userSettings.getUserSettingsByChatId(chatId);
         ConditionCurrencyFormatter conditionCurrencyFormatter = new  ConditionCurrencyFormatter(chatId);
 
         KeyboardRow row1 = new KeyboardRow();
-//         row1.add(new KeyboardButton("USD"));
-//         row1.add(new KeyboardButton("EUR"));
 
         if(!conditionCurrencyFormatter.isUsdCurr() && conditionCurrencyFormatter.isEurCurr()) {
             row1.add(new KeyboardButton("USD"));

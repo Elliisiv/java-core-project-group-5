@@ -9,8 +9,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -43,7 +41,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                     startBut(chatId);
                     startTimer(chatId);
                 }
-                case "Отримати інфо" -> {
+                case "Отримати інфо", "Прийняти" -> {
                     try {
                         sendInfo(chatId);
                     } catch (IOException e) {
@@ -63,15 +61,8 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                     stopTimer();
                     startTimer(chatId);
                 }
-                case "Прийняти" -> {
-                    try {
-                        sendInfo(chatId);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendMainKeyboard(chatId);
-                }
                 case "Відхилити" -> Deselect(chatId);
+
                 default -> {
                     // Перевіряємо, чи натиснута кнопка банку
                     if (isBankButton(messageText)) {
@@ -97,7 +88,6 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void startBut(long chatId){
         sendWelcomeMessage(chatId);
-        sendMainKeyboard(chatId);
     }
 
     private void stopTimer() {
@@ -134,56 +124,44 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     }
 
     private boolean isBankButton(String buttonText) {
-        return buttonText.equals("НБУ") || buttonText.equals("ПриватБанк") || buttonText.equals("Монобанк")
-                ||buttonText.equals("НБУ ✅") || buttonText.equals("ПриватБанк ✅") || buttonText.equals("Монобанк ✅");
+        return buttonText.equals("НБУ")||  buttonText.equals("ПриватБанк") || buttonText.equals("Монобанк")||
+        buttonText.equals("НБУ ✅") || buttonText.equals("ПриватБанк ✅")  ||buttonText.equals("Монобанк ✅");
     }
     private boolean isCurrencyButton(String buttonText) {
-        return buttonText.equals("USD") || buttonText.equals("EUR")
-                || buttonText.equals("USD ✅") || buttonText.equals("EUR ✅");
+        return buttonText.equals("USD") || buttonText.equals("EUR")||
+        buttonText.equals("USD ✅") || buttonText.equals("EUR ✅");
     }
     private boolean isRoundingButton(String buttonText) {
         return buttonText.equals("2") || buttonText.equals("3")|| buttonText.equals("4");
     }
     private boolean isTimeButton(String buttonText) {
-        return buttonText.equals("9") || buttonText.equals("10")|| buttonText.equals("11")|| buttonText.equals("13")|| buttonText.equals("14")|| buttonText.equals("15")|| buttonText.equals("16")|| buttonText.equals("17")|| buttonText.equals("18");
+        return buttonText.equals("9")||buttonText.equals("10") || buttonText.equals("11")||
+        buttonText.equals("12") || buttonText.equals("13")|| buttonText.equals("14")||
+        buttonText.equals("15")|| buttonText.equals("16")|| buttonText.equals("17")||
+        buttonText.equals("18");
     }
-
     private void sendWelcomeMessage(long chatId) {
         String welcomeMessage = "Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют";
         SendMessage message = createMessage(chatId, welcomeMessage);
+        message.setReplyMarkup(MainKeyboard.getMainKeyboard());
         sendMessage(message);
-        //запуск методу для створееня юзера і стандартних налаштувань
+
         UserSettings userSettings = new UserSettings();
         userSettings.createDefaultSettings(chatId);
     }
 
     private void sendInfo(long chatId) throws IOException {
-//        String currencyInfo = "Курс валют: ";
         String currencyInfo = GetInfo.getInfo(chatId);
         SendMessage message = createMessage(chatId, currencyInfo);
+        message.setReplyMarkup(MainKeyboard.getMainKeyboard());
         sendMessage(message);
     }
 
-    // + Ira.Y
-    private void sendMainKeyboard(long chatId) {
-        ReplyKeyboardMarkup keyboardMarkup = MainKeyboard.getMainKeyboard();
-
-        SendMessage message = new SendMessage();
-        message.setChatId(String.valueOf(chatId));
-        message.setReplyMarkup(keyboardMarkup);
-
-        try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
     private void Deselect(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть дію");
         message.setReplyMarkup(MainKeyboard.getMainKeyboard());
         sendMessage(message);
     }
-    // - 
 
     private void sendSettingsKeyboard(long chatId) {
         SendMessage message = createMessage(chatId, "Оберіть налаштування");

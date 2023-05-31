@@ -20,31 +20,15 @@ import java.math.BigDecimal;
 
 public class GetCurrencyPrivatbank {
 
-    public static String desimalCode;//Формат округлення
-    public static BigDecimal buy;//Покупка валюти
-    public static BigDecimal sell;//Продаж валюти
+    public static String desimalCode;
+    public static BigDecimal buy;
+    public static BigDecimal sell;
 
     public static void main(String[] args) throws IOException {
 
         //String result = GetExchangePrivatbank(CurrencyEnum.USD, 2);
 
     }
-
-//    public static double getCurrencySell(BankEnum currency) throws IOException {
-//
-//        double CurrencySell = Double.parseDouble(String.valueOf(GetExchangePrivatbank(String.valueOf(currency)).get_saleRate()));
-//
-//        System.out.println("CurrencySell: " + CurrencySell);
-//        return CurrencySell;
-//    }
-//
-//    public static double getCurrencyBuy (BankEnum currency) throws IOException {
-//        double CurrencyBuy = Double.parseDouble(String.valueOf(GetExchangePrivatbank(String.valueOf(currency)).get_purchase()));
-//
-//        System.out.println("CurrencyBuy: " + CurrencyBuy);
-//        return CurrencyBuy;
-//
-//    }
 
     public static String GetExchangePrivatbank(CurrencyEnum[] currency, int number) throws IOException {
 

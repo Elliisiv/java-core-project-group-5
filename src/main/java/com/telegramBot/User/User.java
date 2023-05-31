@@ -11,12 +11,10 @@ public class User {
     private int rounding;
     private String time;
     
-     ///////////////////////////////////////////////
-    // Ira.Y.
     public long getChatId() {
         return chatId;
     }
-    ///////////////////////////////////////////////
+
 
     public User(long chatId, String banks [], String[] currencies, int rounding, String time) {
         this.chatId = chatId;

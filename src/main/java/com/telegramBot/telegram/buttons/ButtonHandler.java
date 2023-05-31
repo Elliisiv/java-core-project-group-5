@@ -60,38 +60,13 @@ public class ButtonHandler {
 
         return updatedBanks;
     }
-//    private boolean isBankPresent(String[] banks, String bank) {
-//        if (banks == null) {
-//            return false;
-//        }
-//
-//        for (String b : banks) {
-//            if (b.equals(bank)) {
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
+
 
     public void handleCurrencyButton(String buttonText, long chatId) {
         User user = userSettings.getUserSettingsByChatId(chatId);
         String[] currencies = user.getCurrencies();
 
-//         if (buttonText.contains("USD")) {
-//             if (isCurrencyPresent(currencies, "USD")) {
-//                 currencies = removeCurrency(currencies, "USD");
-//             } else {
-//                 currencies = addCurrency(currencies, "USD");
-//             }
-//         } else if (buttonText.contains("EUR")) {
-//             if (isCurrencyPresent(currencies, "EUR")) {
-//                 currencies = removeCurrency(currencies, "EUR");
-//             } else {
-//                 currencies = addCurrency(currencies, "EUR");
-//             }
-//         }
-        
+
         if (buttonText.equals("USD")) {
             currencies = addCurrency(currencies, "USD");
         }
@@ -99,11 +74,11 @@ public class ButtonHandler {
         if (buttonText.equals("USD ✅"))  {
             currencies = removeCurrency(currencies, "USD");
         }
-        
+
         if (buttonText.equals("EUR")) {
             currencies = addCurrency(currencies, "EUR");
         }
-        
+
         if (buttonText.equals("EUR ✅")) {
             currencies = removeCurrency(currencies, "EUR");
         }
@@ -133,20 +108,6 @@ public class ButtonHandler {
         return updatedCurrencies;
     }
 
-//    private boolean isCurrencyPresent(String[] currencies, String currency) {
-//        if (currencies == null) {
-//            return false;
-//        }
-//
-//        for (String c : currencies) {
-//            if (c.equals(currency)) {
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
-
     public void handleRoundingButton(String buttonText, long chatId) {
         User user = userSettings.getUserSettingsByChatId(chatId);
 
@@ -159,9 +120,9 @@ public class ButtonHandler {
         } else if (buttonText.equals("4")) {
             rounding =4;
         }
-            user.setRounding(rounding);
-            userSettings.updateUserSettings(user);
-        }
+        user.setRounding(rounding);
+        userSettings.updateUserSettings(user);
+    }
 
     public void handleTimeButton(String buttonText, long chatId) {
         User user = userSettings.getUserSettingsByChatId(chatId);
@@ -189,7 +150,7 @@ public class ButtonHandler {
         }else if (buttonText.equals("18")) {
             time = "18";
         }
-            user.setTime(time);
-            userSettings.updateUserSettings(user);
-        }
+        user.setTime(time);
+        userSettings.updateUserSettings(user);
     }
+}

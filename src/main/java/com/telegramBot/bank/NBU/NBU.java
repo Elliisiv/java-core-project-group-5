@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public class NBU {
-    public static String desimalCode;//Формат округлення
+    public static String desimalCode;
     private static String url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
     public static String getCurrencyRate(CurrencyEnum [] currency, int number) {
 
@@ -52,7 +52,7 @@ public class NBU {
 
 
             resultNBU = resultNBU + "\n\nНБУ: " + cur + "/UAH\nКурс: " + result;
-            //написати шось
+
 
         }
          return resultNBU ;

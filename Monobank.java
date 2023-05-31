@@ -65,15 +65,11 @@ public class Monobank {
                 default -> desimalCode = "#.#";
             }
             DecimalFormat decimalFormat = new DecimalFormat(desimalCode);
-            String resultForSell = decimalFormat.format(sell);
-            String resultForBuy = decimalFormat.format(buy);
+            String resultForSell = formatterString(decimalFormat.format(sell), number);
+            String resultForBuy = formatterString(decimalFormat.format(buy), number);
             resultMono = resultMono + "\n\nМонобанк:" + cur + "/UAH\nКупівля: " + resultForBuy + "\nПродаж: " + resultForSell;
         }
         return resultMono;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(getCurrencySell(new CurrencyEnum[]{CurrencyEnum.EUR}, 4));
     }
 
     public static String readFile() {
@@ -87,9 +83,25 @@ public class Monobank {
     }
 
     public static void changeFile(String json) throws IOException {
-        FileWriter writer = new FileWriter(settingsFile);
-        writer.flush();
-        new Gson().toJson(json, writer);
-        writer.close();
+        try (FileWriter writer = new FileWriter(settingsFile)) {
+            writer.write(json);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static String formatterString(String num, int number){
+        String result = "";
+        String part2 = "";
+        String [] part = num.split(",");
+        switch (number - part[1].length()) {
+            case 1 -> part2 = part[1] + "0" ;
+            case 2 -> part2 = part[1] + "00" ;
+            case 3 -> part2 = part[1] + "000" ;
+            case 4 -> part2 = part[1] + "0000" ;
+            default ->  part2 = part[1];
+        }
+        result = part[0] + "."  + part2 ;
+        return result;
     }
 }
